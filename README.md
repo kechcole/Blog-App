@@ -5,7 +5,7 @@ Users with different level of authorisations can log in, write posts, update pro
 
 ## **Table of Contents**
 1. Setup
-    - Setup virtual enviroment named myenv
+    - Setup virtual enviroment named myenv and activate
     - Install dependancies - Django
     - Setup Django project 
     - Start application    
