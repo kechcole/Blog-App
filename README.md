@@ -11,5 +11,5 @@ Users with different level of authorisations can log in, write posts, update pro
     - Start application    
 
     My guide to [setting up](https://realpython.com/django-setup/).
-2. Njsjsj
+2. 
 
