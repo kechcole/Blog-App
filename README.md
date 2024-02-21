@@ -7,5 +7,6 @@ A blog application created using Django. Users with different level of authorisa
     - Install dependancies - Django
     - Setup Django project give it a name , blog_app
     - Start application
-     My guide to setting up.
+    My guide to [setting up](https://realpython.com/django-setup/).
+2. 
 
