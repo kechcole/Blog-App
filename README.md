@@ -7,7 +7,9 @@ Users with different level of authorisations can log in, write posts, update pro
 1. Setup
     - Setup virtual enviroment named myenv and activate
     - Install dependancies - Django
-    - Setup Django project 
+    - Setup Django project give it a name , blog_app
     - Start application    
+
+    My guide to [setting up](https://realpython.com/django-setup/)
 2.
 
