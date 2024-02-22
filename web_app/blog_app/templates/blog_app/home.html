@@ -1,0 +1,21 @@
+{% extends 'blog_app/base.html' %}
+{% block content %}
+    <h1>Blog app Home Page</h1>
+    <h2>Display data.</h2>
+    {% for post in posts %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date }}</small>
+          </div>
+          <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+      </article>
+        <!-- <h4>POST : {{ post }}</h4>
+        <p>Title : {{ post.title }}</p>
+        <p>By : {{ post.author }}</p>
+        <p>Content : {{ post.content }}</p> -->
+    {% endfor %}
+{% endblock content %}
