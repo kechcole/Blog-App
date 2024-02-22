@@ -34,5 +34,5 @@ urlpatterns = [
     path('blog/', include('blog_app.urls')),
 ]
 ```
-Run server and add path to [blog](http://127.0.0.1:8000/blog/) 
+Run server and add path to blog http://127.0.0.1:8000/blog/
 ![Test Home Page](./images/1.bloghomepage.png)
