@@ -22,5 +22,17 @@ def home(request):
     return HttpResponse("<h1>Blog Home Page</h1>")
 ``` 
 
-The above function needs to be mapped to a url path for it to be executed via a call. This is achieved by simply creating a url python file inside the blog application and adding a pattern as arguments that will redirect users via port. 
+The above function needs to be mapped to a url path for it to be executed via a call. This is achieved by simply creating a url python file inside the blog application, this is specific to the blog application.
 
+The above must also be routed in the root directory url file, import include and add a path that references url file in the blog_app application. 
+
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('blog/', include('blog_app.urls')),
+]
+```
+Run server and add path to [blog](http://127.0.0.1:8000/blog/) 
+![Test Home Page](./images/1.bloghomepage.png)
