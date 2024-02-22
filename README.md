@@ -38,4 +38,4 @@ Run server and add path to blog http://127.0.0.1:8000/blog/
 ![Test Home Page](./images/1.bloghomepage.png)
 
 Resizes image
-<img src="./images/1.bloghomepage.png" alt="blog app home page" width="300" height="400">
+<img src="./images/1.bloghomepage.png" alt="blog app home page" width="500" height="400">
