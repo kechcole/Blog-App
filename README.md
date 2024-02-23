@@ -83,7 +83,10 @@ JavaScript, css and image files used in templates are stores in static folder in
 Boostrap is a power, feature rich toolkit used to build responsive websites using pre built components. This module was access through a CDN link and used to make beautify the header, rooter and content of our templates. 
 
 
-### 4. User Authentication and Authorisation. 
+### 4. Database Management. 
+Django works with relational databases such as SQlite(in-built) or Postgres. All database systems supported by Django use the language SQL to create, read, update and delete data in a relational database. SQL is also used to create, change, and delete the database tables themselves. An admin site is used to manage models in the database.  
+
+#### 4.1 Admin page
 Admin application is used to manage data through CRUD operations and view registered models in the backend making production efficient. Admin page configurations are automatically created when a user creates a project, all we need now is creating a super user and pass credentials at the command line. User information will be stored in auth_user table stored in the database after applying migrations. 
 
 ```bash
@@ -91,3 +94,83 @@ py manage.py createsuperuser
 ```
 Admin page.
 ![Test Home Page](./images/2.adminpage.png)
+
+#### 4.2 Django ORM.
+Django's Object Relational Mapper makes life easier by abstracting complex SQL queries. It allows users to easily manipulate data form the database using object oriented programming. 
+- We need to only defeine a model class in a python file and apply migartions to effect changes in the database, no data definition query knowledge is needed. 
+- Repetition is greatly reduced by migrations because one creates a model but does not write an SQL query again to create a table. 
+- Migrations apply changes in the databese dynamically, the need to create a complex data manipulation sql query is avoided. 
+
+#### 4.3 Define a model. 
+A model is a single deifitive source of information about data. In order to access user data for each post they make, a model Post is defined, its attributes are stored in fields in models python file. In Python models are classes with tables while attributes map into a column in the database. 
+
+Django has a standard model that is used to manage user accounts in the Authentication package. A user is the author of a post, we therefore need to import User model, a separate table having one to many relationship with Post table associated using a foreign key. 
+
+Sample Post model.
+```python
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+    # Foreign key
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+```
+Make migrations from the shell.
+
+#### 4.4 Query database model.
+ORM provides us with a way to interact with models in the database. Run shell command 
+
+```shell
+py manage.py shell
+```
+Query users by retrieving all objects. 
+```shell
+>>> from blog_app.models import Post
+>>> from django.contrib.auth.models import User
+>>> User.objects.all()
+<QuerySet [<User: collins>]>
+```
+
+Filter data.
+
+```shell
+>>> User.objects.first()
+<User: collins>
+>>> User.objects.filter(username='collins')
+<QuerySet [<User: collins>]>
+>>> User.objects.filter(username='collins').first()
+<User: collins>
+```
+
+Store filtered query.
+
+```shell
+>>> u1 = User.objects.filter(username='collins').first()
+>>> u1
+<User: collins>
+```
+
+User attributes.
+```shell
+>>> u1.id
+1
+>>> u1.pk
+1
+>>> u1.last_login
+datetime.datetime(2024, 2, 23, 7, 31, 57, 175213, tzinfo=datetime.timezone.utc)
+```
+
+Get user by attribute.
+```shell
+>>> user = User.objects.get(id=1)
+>>> user
+<User: collins>
+```
+
+Create post.
+
+
+
