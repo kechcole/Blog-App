@@ -9,7 +9,8 @@ Users with different level of authorisations can log in, write posts, update pro
     - Setup virtual enviroment named myenv and activate
     - Install dependancies - Django
     - Setup Django project give it a name , web_app
-    - Start application name blog_app   
+    - Start application name blog_app
+    - set postgres database   
 
     My guide to [setting up](https://realpython.com/django-setup/).
 
@@ -95,6 +96,10 @@ py manage.py createsuperuser
 Admin page.
 ![Test Home Page](./images/2.adminpage.png)
 
+To view our model in the admin page we need to import and register it in the admin python file inside the app directory.
+Registered model.
+![Registed model](./images/7.model_in_admin.png)
+
 #### 4.2 Django ORM.
 Django's Object Relational Mapper makes life easier by abstracting complex SQL queries. It allows users to easily manipulate data form the database using object oriented programming. 
 - We need to only defeine a model class in a python file and apply migartions to effect changes in the database, no data definition query knowledge is needed. 
@@ -120,7 +125,14 @@ class Post(models.Model):
 ```
 Make migrations from the shell.
 
-Model in the database.![Post model](./images/3.Postmodelindatabase.png)
+Post model in the database.
+![Post model](./images/3.Postmodelindatabase.png)
+
+Users model in database.
+![User model](./images/4.user_table_in_database.png)
+
+Foreign key in Post table referencing User table.
+![Foreign key](./images/5.Post_model_foreign_key_to_user_model.png)
 
 
 #### 4.4 Query database model.
@@ -186,9 +198,59 @@ Create posts using different methods.
 <QuerySet [<Post: Spatia Data Science>, <Post: Enhance Spatial Engineering>, <Post: Remote sensing and GIS>]>
 ```
 
+Get attributes of Post model.
 ```shell
-
+>>> post_3.author
+<User: collins>
+>>> post_3.content
+'Used in spatial analysis like Land cover mapping'
 ```
+
+Fetch User model(parent table) data from Post model(child) using foreign key, get author email.
+```shell
+>>> post_3.author.email
+'collins@gmail.com'
+```
+
+Fetch all the posts written by a user without performing a join analysis, use sets. Add related tablename_set.
+```shell
+>>> user_1 = User.objects.get(id=1)
+>>> user_1
+<User: collins>
+>>> user_1.post_set
+<django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x00000238A99065A0>
+>>> user_1.post_set.all()
+<QuerySet [<Post: Spatia Data Science>, <Post: Enhance Spatial Engineering>, <Post: Remote sensing and GIS>]>
+```
+
+Create a post directly using set, then query post table.
+```shell
+>>> user_1.post_set.create(title='AI in GIS',content='There are many algorithms suck KNN in GIS')
+<Post: AI in GIS>
+>>> Post.objects.all()
+<QuerySet [<Post: Spatia Data Science>, <Post: Enhance Spatial Engineering>, <Post: Remote sensing and GIS>, <Post: AI in GIS>]>
+```
+Note that we did not specify the author of the post nor save the post like previously done. 
+
+#### 4.5 Add queried data to views.
+We can now acces queried information formthe database and display this information in our views. Import the Post class from the same directory file model.py and grab data into a dictionary. 
+
+```python
+from django.shortcuts import render
+from .models import Post
+
+def home(request):
+    # grab data into a dictionary
+    context = {
+        'posts':Post.objects.all()
+    }
+    return render(request, 'blog_app/home.html', context)
+```
+
+Run server and go to home page. 
+![Fetched data](./images/6.data_from_view_in_server.png)
+
+
 
 
 
