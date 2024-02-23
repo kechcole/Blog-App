@@ -83,7 +83,11 @@ JavaScript, css and image files used in templates are stores in static folder in
 Boostrap is a power, feature rich toolkit used to build responsive websites using pre built components. This module was access through a CDN link and used to make beautify the header, rooter and content of our templates. 
 
 
-
-
-
 ### 4. User Authentication and Authorisation. 
+Admin application is used to manage data through CRUD operations and view registered models in the backend making production efficient. Admin page configurations are automatically created when a user creates a project, all we need now is creating a super user and pass credentials at the command line. User information will be stored in auth_user table stored in the database after applying migrations. 
+
+```bash
+py manage.py createsuperuser
+```
+Admin page.
+![Test Home Page](./images/2.adminpage.png)
