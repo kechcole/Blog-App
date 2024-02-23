@@ -12,7 +12,7 @@ Users with different level of authorisations can log in, write posts, update pro
     - Start application name blog_app
     - set postgres database   
 
-    My guide to [setting up](https://realpython.com/django-setup/).
+My guide to [setting up](https://realpython.com/django-setup/).
 
 ### 2. Routing applications.
 
@@ -25,7 +25,7 @@ def home(request):
 
 The above function needs to be mapped to a url path for it to be executed via a call. This is achieved by simply creating a url python file inside the blog application, this is specific to the blog application.
 
-The above must also be routed in the root directory url file, import include and add a path that references url file in the blog_app application. 
+This function is to be routed in the root directory url file by importing include and then adding a path that references url file in the blog_app application. 
 
 ```python
 from django.urls import path, include
@@ -249,6 +249,14 @@ def home(request):
 
 Run server and go to home page. 
 ![Fetched data](./images/6.data_from_view_in_server.png)
+
+### 5. User Registration and Authentication.
+We are going to create an application that allows users to login from the front end by creating accounts and signing in with their own credentials. 
+
+A loggically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in informations from front end to backend python. T
+
+#### 5.1 Create User Application. 
+In the project directory, we will create a new class to model user application. 
 
 
 
