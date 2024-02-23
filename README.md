@@ -49,6 +49,41 @@ To load the templates created, we need to point blog_app views to use them. I wo
 def home(request):
     return render(request, 'blog_app/home.html', )
 ```
+#### 3.1 Base Templates.
+In our two templates, home and about, there are alot of redundant code. Code repeats in multiple locations making it less efficient. Multiple sections such as header, title, and footer can be placed in another base template then inherited by other templates. So the home and about html file will extend this template and add only code that is unique to them. 
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- my css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    <!-- Title  -->
+    {% if title %}
+        <title>BLOG - {{ title }}</title>
+    {% else %}
+        <title>Title</title>
+    {% endif %}
+</head>
+<body>
+    {%block content%} 
+    {%endblock content%}
+</body>
+</html>
+```
+
+#### 3.2 Static files.
+JavaScript, css and image files used in templates are stores in static folder inside the project directory. Django accesses these files by loading the static folder in the base template. 
+
+#### 3.3 Boostrap.
+Boostrap is a power, feature rich toolkit used to build responsive websites using pre built components. This module was access through a CDN link and used to make beautify the header, rooter and content of our templates. 
+
+
+
 
 
 ### 4. User Authentication and Authorisation. 
