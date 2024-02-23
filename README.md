@@ -14,6 +14,8 @@ Users with different level of authorisations can log in, write posts, update pro
 
 My guide to [setting up](https://realpython.com/django-setup/).
 
+Always activate the virtual when reopening the appliaction. 
+
 ### 2. Routing applications.
 
 Views are used used to return responses, our app folder contains this python file with neccesesary functions. I will write a simple function that will return a simple statement when a user goes to the homepage. 
@@ -253,10 +255,48 @@ Run server and go to home page.
 ### 5. User Registration and Authentication.
 We are going to create an application that allows users to login from the front end by creating accounts and signing in with their own credentials. 
 
-A loggically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in informations from front end to backend python. T
+A logically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in informations from front end to backend python. It will verify user details such matching password, email vaidation, field validation, and rendering error messages as well as old values. 
+
+Django does much of the heavy lifting i.e validation by simply automating tasks using pre built forms. Depending on user needs, this framework is extremely flexible as programmers can customize these forms when they need to scale up.
 
 #### 5.1 Create User Application. 
-In the project directory, we will create a new class to model user application. 
+In the project directory, we will create a new class to model user application. This app will handle all the functionalities related to users sign up.
+
+```sh
+py manage.py startapp users
+```
+
+Add application to installed apps variable in setting python file.
+
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog_app',    # first app
+    'users',      # second appp
+]
+```
+
+A registration form has to be rendered by a function registration defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form.   
+
+```python
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+
+# define function that instatiate a form
+def registration(request):
+    form = UserCreationForm()
+    return render(request, 'users/register.html', {'form': form})
+```
+Create template folder in user folder structure, add a subfolder with the name user and place a new file ,`register.html`
+
+
 
 
 
