@@ -172,5 +172,17 @@ Get user by attribute.
 
 Create post.
 
+```shell
+>>> post_1 = Post(title='Spatia Data Science',content='This is a new field that keeps growing',author=user)
+>>> post_1.save()
+>>> Post.objects.all()
+<QuerySet [<Post: Spatia Data Science>]>
+```
+
+Create a second post with the same user but using id to identify.
+```shell
+
+```
+
 
 

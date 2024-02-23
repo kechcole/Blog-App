@@ -7,9 +7,14 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     # Automatically populate date
-    date = models.DateTimeField(default=timezone.now)
+    date_posted = models.DateTimeField(default=timezone.now)
     # Foreign key
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    # Dunder method that make query result descriptive.
     def __str__(self):
         return self.title
+    
+    
+    class Meta:
+        verbose_name_plural = "Posts"
