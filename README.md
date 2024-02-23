@@ -120,6 +120,9 @@ class Post(models.Model):
 ```
 Make migrations from the shell.
 
+Model in the database.![Post model](./images/3.Postmodelindatabase.png)
+
+
 #### 4.4 Query database model.
 ORM provides us with a way to interact with models in the database. Run shell command 
 
@@ -170,16 +173,19 @@ Get user by attribute.
 <User: collins>
 ```
 
-Create post.
+Create posts using different methods.
 
 ```shell
 >>> post_1 = Post(title='Spatia Data Science',content='This is a new field that keeps growing',author=user)
 >>> post_1.save()
 >>> Post.objects.all()
 <QuerySet [<Post: Spatia Data Science>]>
+>>> post_3 = Post(title='Remote sensing and GIS',content='Used in spatial analysis like Land cover mapping', author_id=user.id)
+>>> post_3.save()
+>>> Post.objects.all()
+<QuerySet [<Post: Spatia Data Science>, <Post: Enhance Spatial Engineering>, <Post: Remote sensing and GIS>]>
 ```
 
-Create a second post with the same user but using id to identify.
 ```shell
 
 ```
