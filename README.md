@@ -49,3 +49,6 @@ To load the templates created, we need to point blog_app views to use them. I wo
 def home(request):
     return render(request, 'blog_app/home.html', )
 ```
+
+
+### 4. User Authentication and Authorisation. 
