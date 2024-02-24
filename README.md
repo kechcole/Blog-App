@@ -283,7 +283,8 @@ INSTALLED_APPS = [
 ]
 ```
 
-A registration form has to be rendered by a function registration defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form.   
+#### 5.2 Design form.
+A registration form has to be rendered by a function registration defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form. The `UserCreationForm` is a class that will provide us with a html form in which users fill in. 
 
 ```python
 from django.shortcuts import render
@@ -291,11 +292,114 @@ from django.contrib.auth.forms import UserCreationForm
 
 # define function that instatiate a form
 def registration(request):
-    form = UserCreationForm()
+    form = UserCreationForm()  # Instance with blank form
     return render(request, 'users/register.html', {'form': form})
 ```
 Create template folder in user folder structure, add a subfolder with the name user and place a new file ,`register.html`
 
+Folder structure.
+```
+├── web_app
+│   ├── users
+│   │   ├── templates
+│   │   │   ├── users
+│   │   │   │   ├── register.html
+```
+
+This html file will extend from base html file. 
+
+```html
+<div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today</legend>
+                {{ form.as_p }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="#">Sign In</a>
+            </small>
+        </div>
+    </div>
+```
+Finally, to shoe the form we need to add a url pattern that utlizes our registration view. Import the view directly to the projects folder url file. 
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+from users import views as users_view
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog_app.urls')),
+    path('register/', users_view.registration, name='register'),
+]
+```
+
+Run server and go to register page , http://127.0.0.1:8000/register/
+
+![Register](./images/8.Register%20page.png)
+
+
+#### 5.3 Collect data from form.
+In our form we did not specify the location to store data collected, thus after user entered details, we were redirected to the same page with an empty form. 
+
+When you send data to a server, POST request are used, otherwise if you expect data a GET method is preffered. Both are HTTTP protocol used for data exchange. POST method is also designed to transfer data with secret information from the server to backend i.e passwords. They are also best suited for submitting data especially ones with multiple fields such as those in forms. 
+
+We need to verify the POST method then validate the data inside message body else(GET request) display a blank form. A valid form contains the correct python data types, converted to json formart. Backend user has to be notified that data was successfully submited and user redirected to the home page. For this reason we need to capture username field and display a success message. 
+
+```python
+# import redirect and message functions
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserRegisterForm
+from django.contrib import messages
+
+
+def register(request):
+    # validate method 
+    if request.method == 'POST':
+        # Get data 
+        form = UserRegisterForm(request.POST)
+        # Validate form
+        if form.is_valid():
+            form.save()    # save infor
+
+            # Success message
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            
+            # Redirect to home page 
+            return redirect('blog-home')
+        
+    # GET method
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
+```
+
+The base template needs to be updated to display the flash messages just above the content block. 
+
+```html
+<div class="col-md-8">
+    # <!-- Success message. -->
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+```
+
+#### 5.4 Customize the form.
+Our currect form does not contain an email field, we need to add this attribute so as to collect it. 
 
 
 
