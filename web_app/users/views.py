@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserRegisterForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 
@@ -7,7 +7,7 @@ def register(request):
     # validate method 
     if request.method == 'POST':
         # Get data 
-        form = UserRegisterForm(request.POST)
+        form = UserCreationForm(request.POST)
         # Validate form
         if form.is_valid():
             form.save()    # save infor
@@ -21,5 +21,5 @@ def register(request):
         
     # GET method
     else:
-        form = UserRegisterForm()
+        form = UserCreationForm()
     return render(request, 'users/register.html', {'form': form})
