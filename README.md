@@ -284,18 +284,19 @@ INSTALLED_APPS = [
 ```
 
 #### 5.2 Design form.
-A registration form has to be rendered by a function registration defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form. The `UserCreationForm` is a class that will provide us with a html form in which users fill in. 
+Django comes with pre-built user authentication systems. User logins can be enabled by importing authentication systems. User objects form the building blocks of an authentication system. Developers create new users by using a build-in module,`UserCreationForm`, it contains three basic attributes, **username**, **password1** and **password2**, they are minimum requirements needed to have an authentication system. 
+A registration form has to be rendered by a function, in this case, **registration**, defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form. To access the form from the html file, we need to pass in as context in a dictionary.  
 
 ```python
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 
-# define function that instatiate a form
+# define function that instantiates a form
 def registration(request):
     form = UserCreationForm()  # Instance with blank form
     return render(request, 'users/register.html', {'form': form})
 ```
-Create template folder in user folder structure, add a subfolder with the name user and place a new file ,`register.html`
+Create template folder in users folder structure, add a subfolder with the name users *(must be similar to application name)*, add a new file ,`register.html`. This template receives the form and renders it in our page. 
 
 Folder structure.
 ```
@@ -309,15 +310,20 @@ Folder structure.
 This html file will extend from base html file. 
 
 ```html
-<div class="content-section">
+{% extends 'blog_app/base.html' %}
+{% block content %}
+    <h1>Registration Form.</h1>
+    <br>
+    <div class="content-section">
         <form method="POST">
-            {% csrf_token %}
+            {% csrf_token %} 
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join Today</legend>
+                <legend class="border-bottom mb-4">Join Today - Coles Blog App</legend>
+                <!-- Render form as paragraph -->
                 {{ form.as_p }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+                <button class="btn btn-outline-info" type="submit">Register</button>
             </div>
         </form>
         <div class="border-top pt-3">
@@ -326,8 +332,10 @@ This html file will extend from base html file.
             </small>
         </div>
     </div>
+   
+{% endblock content %}
 ```
-Finally, to shoe the form we need to add a url pattern that utlizes our registration view. Import the view directly to the projects folder url file. 
+Finally, to display the form we need to add a url pattern that handles the request. Go to the web_app project `urls.py`, import registration view, add path and give it a name. 
 
 ```python
 from django.contrib import admin
@@ -343,15 +351,20 @@ urlpatterns = [
 
 Run server and go to register page , http://127.0.0.1:8000/register/
 
-![Register](./images/8.Register%20page.png)
+Without the form method `as_p` the page doest look appealing, see below ;
+![Register](./images/8.1Registerpage_no_form_method.png)
 
+With form method ;
+![Register](./images/8.2%20Register_page.png)
+
+The form has multiple validation information that guides the user, number of characters and type of password required. All these functionalities provided for no need to be hard coded. Django is amazing !!
 
 #### 5.3 Collect data from form.
-In our form we did not specify the location to store data collected, thus after user entered details, we were redirected to the same page with an empty form. 
+In our form we did not specify the location to store data collected, thus after user entered details, they were redirected to the same page with an empty form. 
 
 When you send data to a server, POST request are used, otherwise if you expect data a GET method is preffered. Both are HTTTP protocol used for data exchange. POST method is also designed to transfer data with secret information from the server to backend i.e passwords. They are also best suited for submitting data especially ones with multiple fields such as those in forms. 
 
-We need to verify the POST method then validate the data inside message body else(GET request) display a blank form. A valid form contains the correct python data types, converted to json formart. Backend user has to be notified that data was successfully submited and user redirected to the home page. For this reason we need to capture username field and display a success message. 
+We need to verify the POST method then validate the data inside message body else(GET request) display a blank form. A valid form contains the correct python data types, converted to json formart. Backend user will be notified that data was successfully submited and user redirected to the home page. For this reason we need to capture username field and display a success message. 
 
 ```python
 # import redirect and message functions
