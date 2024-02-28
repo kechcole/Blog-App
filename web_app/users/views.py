@@ -10,7 +10,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         # Validate form
         if form.is_valid():
-            form.save()    # save infor
+            form.save()    # save user data 
 
             # Success message
             username = form.cleaned_data.get('username')
