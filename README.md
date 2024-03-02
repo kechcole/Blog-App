@@ -252,7 +252,7 @@ def home(request):
 Run server and go to home page. 
 ![Fetched data](./images/6.data_from_view_in_server.png)
 
-### 5. User Registration and Authentication.
+### 5. User Registration.
 We are going to create an application that allows users to login from the front end by creating accounts and signing in with their own credentials. 
 
 A logically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in informations from front end to backend python. It will verify user details such matching password, email vaidation, field validation, and rendering error messages as well as old values. 
@@ -384,7 +384,7 @@ def register(request):
 
             # Success message
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
+            messages.success(request, f'{username} Successfully created an Account!')
             
             # Redirect to home page 
             return redirect('blog-home')
@@ -412,10 +412,218 @@ The base template needs to be updated to display the flash messages just above t
 ```
 
 #### 5.4 Customize the form.
-Our currect form does not contain an email field, we need to add this attribute so as to collect it. 
+Our currect form does not contain an email field, we need to add this attribute so that it can be fetched. We will create a new form, within `form.py` file in the Users root directory, that will inherit form the current one then add new fields and specify the model that will interact with it. 
+
+```python
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+# Inherit from user form and add fields 
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+```
+To effect the above changes, we simply override previously created form `UserCreationForm` within `views.py` file with imported `UserRegisterForm`. 
+
+```python
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import UserRegisterForm
+
+
+def register(request):
+    # validate method 
+    if request.method == 'POST':
+        # instatiate form and grab data
+        form = UserRegisterForm(request.POST)
+        # Validate form
+        if form.is_valid():
+            # form.save()    # save user data 
+
+            # Success message
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'{username} Successfully created an Account!')
+            
+            # Redirect to home page 
+            return redirect('blog-home')
+        
+    # GET method
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
+```
+
+New Form with email field ;
+![Register](./images/9.email_fieldadded.png)
+
+#### 5.5 Enhance form appearance. 
+Our form needs an enhanced styling i.e colour error notifications to make them more visible or reduce their fonts. Django-crispy-forms provides us with the best tool to control rendering behaviour for our forms. It contains built in css framework like bootstrap, tailwind, bootsrap5 etc, to use any of these pacakages, a packed must be selected inside `settings.py` file. In addition it also saves us alot of time and effort that is if we opted for default django. This third party module uses tags on templates to render elegant features in a way similar to boostrap. In the virtual enviroment install `django-crispy-forms` then link the application to our website. We also need to install and update to boostrap-5 since our template is using a slightly older version.
+
+```shell
+(myenv) F:\Blog-App\myenv>pip install django-crispy-forms
+(myenv) F:\Blog-App\myenv>pip install crispy-bootstrap5
+
+(myenv) F:\Blog-App\myenv> pip freeze
+asgiref==3.7.2
+crispy-bootstrap5==2024.2
+Django==5.0.2
+django-crispy-forms==2.1
+psycopg2==2.9.9
+sqlparse==0.4.4
+tzdata==2024.1
+```
+Notify Django of new apps in `settings.py`
+
+```python
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # new apps
+    'blog_app',
+    'users',
+    'crispy_forms',
+    'crispy_bootstrap5',
+]
+
+
+
+# Set default template pack for boostraps features.
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+```
+
+Crispy uses filter/tags on form elements, our previous tag `as_p` method is reduntant since better capabilities can be found with bootstrap. In our base template add ;
+
+```html
+{% load crispy_forms_tags % }
+
+<form method="post" class="uniForm">
+    {{ form|crispy }}
+</form>
+```
+
+New form appearance
+![Form](./images/9.2formappearance.png)
+
+Form errors appearance
+![Form error](./images/9.3FormErrors.png)
+
+
+### 6. User Authentication System.
+Django comes with built in authorization and authentication(‘permission’) forms from the Django contrib module. These features can be used to verify credentials buy defining logins and logouts. 
+
+Previously only a superuser admin could log in, to enable other users to access the frontend, we need to build a login and logout pages. Authentication views are defined at project level url module. Each view must be differentiated by name using extensions. 
+
+We will create these pages in users app template folder, then add their paths inside project level urls file then notify Django to lookup for them by passing it as an argument to `as_view()` function.
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+from users import views as users_views
+from django.contrib.auth import views as auth_views   # new
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog_app.urls')),
+    path('register/', users_views.register, name='register'),
+
+    # auth views 
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('login/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+]
+```
+
+Create the two html pages in Users app template folder, extend the base template and pass is the form that views will be parsing. In the log in page, if user doesn't have an account, using href tags, we will direct them to the registration page by adding link ; `{% url 'register' %}`. While in the registration page if a user had already registered we need to add a link to the login page in sign in tag ; `'{% url 'login' %}'`
+
+Login template
+```html
+{% extends 'blog_app/base.html' %}
+
+{% load crispy_forms_tags %} 
+
+{% block content %}
+    <h1>Login Form.</h1>
+    <br>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %} 
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                <!-- Render form with bootstrap -->
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Login</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Create Account ? <a class="ml-2" href="{% url 'register' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+   
+{% endblock content %}
+```
+Registration template
+```html
+{% extends 'blog_app/base.html' %}
+
+{% load crispy_forms_tags %} 
+
+{% block content %}
+    <h1>Registration Form.</h1>
+    <br>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %} 
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Join Today - Coles Blog App</legend>
+                <!-- Render form with bootstrap -->
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Sign Up</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+    </div>
+   
+{% endblock content %}
+```
+
+Trying to acces a users account that had already been created by logging in raises an error as seen below. This is because Django is trying to access a url that does not have a view(/accounts/profile/) attached to it. This is Django functionality, its set up such that after a user successfully login it redirects them to acounts profile page, we can modify this route so that after a successfull logging, a home page is opened. 
+
+Form errors appearance
+![Login error](./images/10.1Loginerror.png)
+
+Open the settings file and setup a logging redirect path to the blogg's home page. 
+
+```python
+LOGIN_REDIRECT_URL = 'blog-home'
+```
+
+Now try and login again with a valid user credential. User are now redirected to the home page. 
 
 
 
 
 
 
+[//]: # (NEXT <> Part 7 , 12.06)
