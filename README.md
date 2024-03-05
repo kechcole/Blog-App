@@ -524,8 +524,9 @@ Form errors appearance
 ### 6. User Authentication System.
 Django comes with built in authorization and authentication(‘permission’) forms from the Django contrib module. These features can be used to verify credentials buy defining logins and logouts. 
 
-Previously only a superuser admin could log in, to enable other users to access the frontend, we need to build a login and logout pages. Authentication views are defined at project level url module. Each view must be differentiated by name using extensions. 
+Previously only a superuser admin could log in so as to enable other users to access the frontend, we need to build a login and logout pages. Authentication views are defined at project level url module. Each view must be differentiated by name using extensions. 
 
+#### 6.1 Create a login template. 
 We will create these pages in users app template folder, then add their paths inside project level urls file then notify Django to lookup for them by passing it as an argument to `as_view()` function.
 
 ```python
@@ -577,7 +578,9 @@ Login template
    
 {% endblock content %}
 ```
+
 Registration template
+
 ```html
 {% extends 'blog_app/base.html' %}
 
@@ -608,7 +611,8 @@ Registration template
 {% endblock content %}
 ```
 
-Trying to acces a users account that had already been created by logging in raises an error as seen below. This is because Django is trying to access a url that does not have a view(/accounts/profile/) attached to it. This is Django functionality, its set up such that after a user successfully login it redirects them to acounts profile page, we can modify this route so that after a successfull logging, a home page is opened. 
+#### 6.2 Test login page with different users. 
+Trying to acces a users account that had already been created  raises an error as seen below. This is because Django is trying to access a url that does not have a view(/accounts/profile/) attached to it. This is Django functionality, its set up such that after a user successfully login it redirects them to acounts profile page, we can modify this route so that after a successfull logging, a home page is opened. 
 
 Form errors appearance
 ![Login error](./images/10.1Loginerror.png)
@@ -624,8 +628,38 @@ Now again we try to login with a valid user credential, users are now redirected
 ![try-login](./images/11.Login.png "login page") ![success login](./images/12.Successlogin.png "home-page")
 
 
+Currently only the superuser can access the admin page after logging to their page, else it raises and error as seen bellow;
+![Login error](./images/13.errorlogin.png)
 
+Currently users are redirected to the home page after creating an account, this is enabled the `register` function(see section 5.4). This can be modified to allow them be redirected to the login page after they have been authenticated. Simply change the value returned by the above function and the success message to fit this purpose. 
+Lets create a new user by heading to register page- My guide to register-link - *https:http://127.0.0.1:8000/register/*
 
+```python
+# Change function in users app url.py 
+
+def register(request):
+    # validate method 
+    if request.method == 'POST':
+        # Get data 
+        form = UserRegisterForm(request.POST)
+        # Validate form
+        if form.is_valid():
+            form.save()    # save user data 
+
+ # ---->        Change 1
+            # Changed Success message
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Hi {username}, You have successfully been verified, procced to loging!')
+            
+ # ----->       Change 2
+            # Redirect to login page 
+            return redirect('login')
+        
+    # GET method
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
+```
 
 
 [//]: # (NEXT <> Part 7 , 12.06)
