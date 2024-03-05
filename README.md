@@ -613,13 +613,15 @@ Trying to acces a users account that had already been created by logging in rais
 Form errors appearance
 ![Login error](./images/10.1Loginerror.png)
 
-Open the settings file and setup a logging redirect path to the blogg's home page. 
+This 'Page not found' error can be corrected by adding a route where Django will acces after users login succesfully. Open the settings file and setup a logging redirect path to the blogg's home page. This variable is given a value that represents a link, in our case the name give to home page link. 
 
 ```python
 LOGIN_REDIRECT_URL = 'blog-home'
 ```
 
-Now try and login again with a valid user credential. User are now redirected to the home page. 
+Now again we try to login with a valid user credential, users are now redirected to the home page. 
+
+![try-login](./images/11.Login.png "login page") ![success login](./images/12.Successlogin.png "home-page")
 
 
 
