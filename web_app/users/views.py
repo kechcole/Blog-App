@@ -14,7 +14,7 @@ def register(request):
 
             # Success message
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Hi {username}, You have successfully been verified, procced to loging!')
+            messages.success(request, f'Hi {username}, You have successfully been verified, procced to login!')
             
             # Redirect to home page 
             return redirect('login')

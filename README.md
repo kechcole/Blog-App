@@ -546,7 +546,7 @@ urlpatterns = [
 ]
 ```
 
-Create the two html pages in Users app template folder, extend the base template and pass is the form that views will be parsing. In the log in page, if user doesn't have an account, using href tags, we will direct them to the registration page by adding link ; `{% url 'register' %}`. While in the registration page if a user had already registered we need to add a link to the login page in sign in tag ; `'{% url 'login' %}'`
+Create the login html page in Users app template folder, extend the base template and pass is the form that views will be parsing. In the log in page, if user doesn't have an account, using href tags, we will direct them to the registration page by adding link ; `{% url 'register' %}`. While in the registration page if a user had already registered we need to add a link to the login page in sign in tag ; `'{% url 'login' %}'`
 
 Login template
 ```html
@@ -660,6 +660,9 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 ```
+
+#### 6.3 Create Logout Template.
+In step 6.1, we set a url path for logout and assigned a name, `logout`, next we need a html file that will contain logout display information. The file will be loaced in the same directory as the login template. 
 
 
 [//]: # (NEXT <> Part 7 , 12.06)
