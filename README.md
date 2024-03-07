@@ -351,11 +351,11 @@ urlpatterns = [
 
 Run server and go to register page , http://127.0.0.1:8000/register/
 
-Without the form method `as_p` the page doest look appealing, see below ;
-![Register](./images/8.1Registerpage_no_form_method.png)
+Without the form method `as_p` the page doesn't look appealing, see below ;
 
-With form method ;
-![Register](./images/8.2%20Register_page.png)
+With method              |   No method 
+:-------------------:|:------------------:
+![](./images/8.1Registerpage_no_form_method.png)|![](./images/8.2%20Register_page.png)
 
 The form has multiple validation information that guides the user, number of characters and type of password required. All these functionalities provided for no need to be hard coded. Django is amazing !!
 
@@ -514,11 +514,10 @@ Crispy uses filter/tags on form elements, our previous tag `as_p` method is redu
 </form>
 ```
 
-New form appearance
-![Form](./images/9.2formappearance.png)
+New form appearance      |  Form errors appearance 
+:----------------------:|:------------------:
+![Form](./images/9.2formappearance.png) | ![Form error](./images/9.3FormErrors.png)
 
-Form errors appearance
-![Form error](./images/9.3FormErrors.png)
 
 
 ### 6. User Authentication System.
