@@ -630,7 +630,7 @@ Now again we try to login with a valid user credential, users are now redirected
 Currently only the superuser can access the admin page after logging to their page, else it raises and error as seen bellow;
 ![Login error](./images/13.errorlogin.png)
 
-Currently users are redirected to the home page after creating an account, this is enabled the `register` function(see section 5.4). This can be modified to allow them be redirected to the login page after they have been authenticated. Simply change the value returned by the above function and the success message to fit this purpose. 
+Currently users are redirected to the home page after creating an account, this is enabled by `register` function(see section 5.4). This can be modified to allow them be redirected to the login page after they have been authenticated. Simply change the value returned by the above function and the success message to fit this purpose. 
 Lets create a new user by heading to register page- My guide to register-link - *https:http://127.0.0.1:8000/register/*
 
 ```python
