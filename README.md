@@ -527,6 +527,7 @@ Previously only a superuser admin could log in so as to enable other users to ac
 
 #### 6.1 Create a login template. 
 We will create these pages in users app template folder, then add their paths inside project level urls file then notify Django to lookup for them by passing it as an argument to `as_view()` function.
+Django already has installed auth application(check INSTALLED APP variable in settings file) to handle loggin, loggout, password change, password reset and many more. Its important to note it does not include a sign up view thats why we have to configure this by ourselves. To add this application we must unclude it in our project blogg_app url file.
 
 ```python
 from django.contrib import admin
@@ -541,11 +542,15 @@ urlpatterns = [
 
     # auth views 
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('login/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]
 ```
 
-Create the login html page in Users app template folder, extend the base template and pass is the form that views will be parsing. In the log in page, if user doesn't have an account, using href tags, we will direct them to the registration page by adding link ; `{% url 'register' %}`. While in the registration page if a user had already registered we need to add a link to the login page in sign in tag ; `'{% url 'login' %}'`
+Create the login html page in Users app template folder, within user, extend the base template and pass is the form that views will be parsing. 
+
+By default Django will look for registration folder to locate login or logout templates, hence we need to pass a name as a variable inside as_view() function. 
+
+In the log in page, if user doesn't have an account, using href tags, we will direct them to the registration page by adding link ; `{% url 'register' %}`. While in the registration page if a user had already registered we need to add a link to the login page in sign in tag ; `'{% url 'login' %}'`
 
 Login template
 ```html
