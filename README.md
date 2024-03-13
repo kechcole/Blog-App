@@ -542,7 +542,6 @@ urlpatterns = [
 
     # auth views 
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 ]
 ```
 
@@ -666,7 +665,133 @@ def register(request):
 ```
 
 #### 6.3 Create Logout Template.
-In step 6.1, we set a url path for logout and assigned a name, `logout`, next we need a html file that will contain logout display information. The file will be loaced in the same directory as the login template. 
+In our `web_app` url.py file, we will add a path to logout page from auth app by including it inside `urlpatterns` list.
+```python
+
+    # from auth app
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    # New line 
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+```
+Default log out page for django :
+![Logout page](./images/14.DefaultLogoutPage.png)
+
+The page exposes unwarranted individual users to the admin section, this can be corrected by customising a html page and then passing this template as a variable to `as_view()` function. The file will be loaced in the same directory as the login template.
+```python
+    # New line 
+    path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+
+```
+Customised log out page :
+![Login error](./images/14.2CustomLogout.png)
+
+#### 6.4 Naviagation Page.
+Currently our navigation panel does not update when a user is logged in or signed out, i.e if one is logged in, a logout link should appear and vice verser. A user can be authenticated in the base template by adding a control measure to check status. First attach a link to the logout and register buttons, i.e `href="{% url 'logout'%}"`. Django gives us acess to a User variable that has attributre `is_authenticated`, it checks log status. In the base html, We will create a python condition; if user is logged in then display logout button else display register button. 
+
+```html
+    <!-- Items on the left -->
+    <div>
+        <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+            <span class="navbar-text">Logged in as {{user.username}} | </span>
+        <!-- login link -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+        <!-- link for registering -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+        {% endif%}
+        </ul>
+    </div>
+```
+New Log Out Page  |  New Home Page Login feature 
+:----------------------:|:------------------:
+![Form](./images/14.3NewLogutPage.png) | ![Form error](./images/14.4NewLoginPage.png)
+
+#### 6.5 Create Profile Page.
+A profile page is neccesary to ensure that a user must sign up or log in so as to acess the application. This page displays user biodata i.e profile images. The bigger advantage is that is sets a restriction on certain routes i.e one must be signed and logged in to view the home page and other app features. 
+
+Create function, in the app view, that renders the page. 
+```python
+# Render a profile template 
+def profile(request):
+    return render(request, 'users/profile.html')
+```
+
+A template `profile.html` that simply shows user name is added to users template folder. 
+```html
+    {% extends 'blog_app/base.html' %}
+
+    {% block content %}
+        <h1>{{ user.username }} Profile Page.</h1>
+    
+    {% endblock content %}
+```
+
+A route that utilizes this view is also needed, navigate to project's url file ;
+
+```python
+urlpatterns = [
+
+# New code 
+# ---->  profile link 
+    path('profile/', users_views.profile, name='profile'),
+]
+```
+
+Our application must have a link to the profile page for users to view their data, we can incoperate a link(to profile page) in the header section of base html only when they are logged in. 
+```html
+        <!-- Items on the left -->
+        <div>
+          <ul class="navbar-nav">
+            {% if user.is_authenticated %} 
+
+        <!-- New Line -->
+              <!-- Link to profile  -->
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+              </li>
+        <!-- ----------------- -->
+
+              <!-- Display user name -->
+            {% else %}
+
+            {% endif%}
+              </ul>
+        </div>
+```
+
+Restrict the page to users who are logged in, this is achieved through a django decorator. Decorators are functions that change / enhance the behaviours of objects without altering their state, in our case, we need to enable `profile` view only if user is signed in. From Django's auth module import decorators into Users urls file ;
+
+```python
+
+from django.contrib.auth.decorators import login_required
+
+# Render a profile template
+@login_required
+def profile(request):
+    return render(request, 'users/profile.html')
+
+```
+
+Django must be notified of a login route else it will search for the file in a default account/ route. This error is corrected by adding a login url variable in the settings file. This way, when users try searching a profile page, they are redirected to a login page. 
+
+```python
+
+LOGIN_REDIRECT_URL = 'blog-home'
+
+# New code 
+LOGOUT_URL = 'login'
+```
+
+
+
+
+
+
 
 
 [//]: # (NEXT <> Part 7 , 12.06)
