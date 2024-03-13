@@ -794,4 +794,4 @@ LOGOUT_URL = 'login'
 
 
 
-[//]: # (NEXT <> Part 7 , 12.06)
+[//]: # (NEXT <> Part 8 , )
