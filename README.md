@@ -838,10 +838,50 @@ MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 ```
 
-Apply and make migration to effect changes in the database then run server and log in as superuser so as to access admin page. Only the admin can add multiple images for each user. Then query the database from the shell to view location of images.  After adding images, at the root folder note media folder and image subfolder containing images have been added automatically. 
+Apply and make migration to effect changes in the database then run server and log in as superuser so as to access admin page where we will upload an image for each user from our local directory. Only the admin can add multiple images for each user. Then query the database from the shell to view location of images.  After adding images, at the root folder note media folder and image subfolder containing images have been added automatically. 
 
-Query database after stopping the server. 
+User1 Profile in admin page  |  User2 Profile in admin page
+:----------------------:|:------------------:
+![User 1](./images/15.2%20User1%20Profile.png) | ![User 2](./images/15.3%20User2%20Profile.png)
+
+
+
+
+Profile model in the database.
+![Form](./images/15.ProfileModelinDatabase.png)
+
+
+Querying database after stopping the server. Get image associated to a user from the profile model by stringing. 
+```shell
+# User with default image 
+>>> user = User.objects.filter(username='collins').first()
+>>> user
+<User: collins>
+>>> user.profile.image
+<ImageFieldFile: default.jpg>
+# Image path
+>>> user.profile.image.url
+'/media/default.jpg'
+
+
+# User with profile image uploaded
+>>> user2 = User.objects.filter(username='cole').first()
+>>> user2
+<User: cole>
+# Image properties
+>>> user2.profile.image.width
+225
+
+
+# Access profile of a user directly from the user model
+>>> user2.profile
+<Profile: cole Profile>
+>>> user2.profile.image
+<ImageFieldFile: images/profile1.png>
+>>> user2.profile.image.url
+'/media/images/profile1.png'
 ```
+Exit shell with `exit()` command. 
 
 
 
