@@ -1,33 +1,33 @@
 # Blog-App
 A blog application created using Django.
-Users with different level of authorisations can log in, write posts, update profile information and many  more features.
+Users with different level of authorizations can log in, write posts, update profile information and many  more features.
 
 
 ## **Table of Contents**
 
 ### 1. Setup
-    - Setup virtual enviroment named myenv and activate
-    - Install dependancies - Django
+    - Setup virtual environment named myenv and activate
+    - Install dependencies - Django
     - Setup Django project give it a name , web_app
     - Start application name blog_app
-    - set postgres database   
+    - set PostgreSQL database   
 
 My guide to [setting up](https://realpython.com/django-setup/).
 
-Always activate the virtual when reopening the appliaction. 
+Always activate the virtual when reopening the application. 
 
 ### 2. Routing applications.
 
-Views are used used to return responses, our app folder contains this python file with neccesesary functions. I will write a simple function that will return a simple statement when a user goes to the homepage. 
+Views are used used to return responses, our app folder contains this python file with necessary functions. I will write a simple function that will return a simple statement when a user goes to the homepage. 
 
 ```python
 def home(request):
     return HttpResponse("<h1>Blog Home Page</h1>")
 ``` 
 
-The above function needs to be mapped to a url path for it to be executed via a call. This is achieved by simply creating a url python file inside the blog application, this is specific to the blog application.
+The above function needs to be mapped to a URL path for it to be executed via a call. This is achieved by simply creating a `url` python file inside the blog application, this is specific to the blog application.
 
-This function is to be routed in the root directory url file by importing include and then adding a path that references url file in the blog_app application. 
+This function is to be routed in the root directory `url` file by importing include and then adding a path that references `url` file in the blog_app application. 
 
 ```python
 from django.urls import path, include
@@ -53,7 +53,7 @@ def home(request):
     return render(request, 'blog_app/home.html', )
 ```
 #### 3.1 Base Templates.
-In our two templates, home and about, there are alot of redundant code. Code repeats in multiple locations making it less efficient. Multiple sections such as header, title, and footer can be placed in another base template then inherited by other templates. So the home and about html file will extend this template and add only code that is unique to them. 
+In our two templates, home and about, there are a lot of redundant code. Code repeats in multiple locations making it less efficient. Multiple sections such as header, title, and footer can be placed in another base template then inherited by other templates. So the home and about html file will extend this template and add only code that is unique to them. 
 
 ```html
 {% load static %}
@@ -80,14 +80,14 @@ In our two templates, home and about, there are alot of redundant code. Code rep
 ```
 
 #### 3.2 Static files.
-JavaScript, css and image files used in templates are stores in static folder inside the project directory. Django accesses these files by loading the static folder in the base template. 
+JavaScript, CSS and image files used in templates are stores in static folder inside the project directory. Django accesses these files by loading the static folder in the base template. 
 
-#### 3.3 Boostrap.
-Boostrap is a power, feature rich toolkit used to build responsive websites using pre built components. This module was access through a CDN link and used to make beautify the header, rooter and content of our templates. 
+#### 3.3 Bootstrap.
+Bootstrap is a power, feature rich toolkit used to build responsive websites using pre built components. This module was access through a CDN link and used to make beautify the header, rooter and content of our templates. 
 
 
 ### 4. Database Management. 
-Django works with relational databases such as SQlite(in-built) or Postgres. All database systems supported by Django use the language SQL to create, read, update and delete data in a relational database. SQL is also used to create, change, and delete the database tables themselves. An admin site is used to manage models in the database.  
+Django works with relational databases such as SSQLite(in-built) or Postgres. All database systems supported by Django use the language SQL to create, read, update and delete data in a relational database. SQL is also used to create, change, and delete the database tables themselves. An admin site is used to manage models in the database.  
 
 #### 4.1 Admin page
 Admin application is used to manage data through CRUD operations and view registered models in the backend making production efficient. Admin page configurations are automatically created when a user creates a project, all we need now is creating a super user and pass credentials at the command line. User information will be stored in auth_user table stored in the database after applying migrations. 
@@ -100,16 +100,16 @@ Admin page.
 
 To view our model in the admin page we need to import and register it in the admin python file inside the app directory.
 Registered model.
-![Registed model](./images/7.model_in_admin.png)
+![Registered model](./images/7.model_in_admin.png)
 
 #### 4.2 Django ORM.
 Django's Object Relational Mapper makes life easier by abstracting complex SQL queries. It allows users to easily manipulate data form the database using object oriented programming. 
-- We need to only defeine a model class in a python file and apply migartions to effect changes in the database, no data definition query knowledge is needed. 
+- We need to only define a model class in a python file and apply migrations to effect changes in the database, no data definition query knowledge is needed. 
 - Repetition is greatly reduced by migrations because one creates a model but does not write an SQL query again to create a table. 
-- Migrations apply changes in the databese dynamically, the need to create a complex data manipulation sql query is avoided. 
+- Migrations apply changes in the database dynamically, the need to create a complex data manipulation SQL query is avoided. 
 
 #### 4.3 Define a model. 
-A model is a single deifitive source of information about data. In order to access user data for each post they make, a model Post is defined, its attributes are stored in fields in models python file. In Python models are classes with tables while attributes map into a column in the database. 
+A model is a single definitive source of information about data. In order to access user data for each post they make, a model Post is defined, its attributes are stored in fields in models python file. In Python models are classes with tables while attributes map into a column in the database. 
 
 Django has a standard model that is used to manage user accounts in the Authentication package. A user is the author of a post, we therefore need to import User model, a separate table having one to many relationship with Post table associated using a foreign key. 
 
@@ -214,7 +214,7 @@ Fetch User model(parent table) data from Post model(child) using foreign key, ge
 'collins@gmail.com'
 ```
 
-Fetch all the posts written by a user without performing a join analysis, use sets. Add related tablename_set.
+Fetch all the posts written by a user without performing a join analysis, use sets. Add related table name set.
 ```shell
 >>> user_1 = User.objects.get(id=1)
 >>> user_1
@@ -235,7 +235,7 @@ Create a post directly using set, then query post table.
 Note that we did not specify the author of the post nor save the post like previously done. 
 
 #### 4.5 Add queried data to views.
-We can now acces queried information formthe database and display this information in our views. Import the Post class from the same directory file model.py and grab data into a dictionary. 
+We can now access queried information from the database and display this information in our views. Import the Post class from the same directory file model.py and grab data into a dictionary. 
 
 ```python
 from django.shortcuts import render
@@ -255,7 +255,7 @@ Run server and go to home page.
 ### 5. User Registration.
 We are going to create an application that allows users to login from the front end by creating accounts and signing in with their own credentials. 
 
-A logically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in informations from front end to backend python. It will verify user details such matching password, email vaidation, field validation, and rendering error messages as well as old values. 
+A logically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in information from front end to backend python. It will verify user details such matching password, email validation, field validation, and rendering error messages as well as old values. 
 
 Django does much of the heavy lifting i.e validation by simply automating tasks using pre built forms. Depending on user needs, this framework is extremely flexible as programmers can customize these forms when they need to scale up.
 
@@ -335,7 +335,7 @@ This html file will extend from base html file.
    
 {% endblock content %}
 ```
-Finally, to display the form we need to add a url pattern that handles the request. Go to the web_app project `urls.py`, import registration view, add path and give it a name. 
+Finally, to display the form we need to add a URL pattern that handles the request. Go to the web_app project `urls.py`, import registration view, add path and give it a name. 
 
 ```python
 from django.contrib import admin
@@ -362,9 +362,9 @@ The form has multiple validation information that guides the user, number of cha
 #### 5.3 Collect data from form.
 In our form we did not specify the location to store data collected, thus after user entered details, they were redirected to the same page with an empty form. 
 
-When you send data to a server, POST request are used, otherwise if you expect data a GET method is preffered. Both are HTTTP protocol used for data exchange. POST method is also designed to transfer data with secret information from the server to backend i.e passwords. They are also best suited for submitting data especially ones with multiple fields such as those in forms. 
+When you send data to a server, POST request are used, otherwise if you expect data a GET method is preferred. Both are HTTTP protocol used for data exchange. POST method is also designed to transfer data with secret information from the server to backend i.e passwords. They are also best suited for submitting data especially ones with multiple fields such as those in forms. 
 
-We need to verify the POST method then validate the data inside message body else(GET request) display a blank form. A valid form contains the correct python data types, converted to json formart. Backend user will be notified that data was successfully submited and user redirected to the home page. For this reason we need to capture username field and display a success message. 
+We need to verify the POST method then validate the data inside message body else(GET request) display a blank form. A valid form contains the correct python data types, converted to JSON format. Backend user will be notified that data was successfully summited and user redirected to the home page. For this reason we need to capture username field and display a success message. 
 
 ```python
 # import redirect and message functions
@@ -412,7 +412,7 @@ The base template needs to be updated to display the flash messages just above t
 ```
 
 #### 5.4 Customize the form.
-Our currect form does not contain an email field, we need to add this attribute so that it can be fetched. We will create a new form, within `form.py` file in the Users root directory, that will inherit form the current one then add new fields and specify the model that will interact with it. 
+Our current form does not contain an email field, we need to add this attribute so that it can be fetched. We will create a new form, within `form.py` file in the Users root directory, that will inherit form the current one then add new fields and specify the model that will interact with it. 
 
 ```python
 from django import forms
@@ -461,7 +461,7 @@ New Form with email field ;
 ![Register](./images/9.email_fieldadded.png)
 
 #### 5.5 Enhance form appearance. 
-Our form needs an enhanced styling i.e colour error notifications to make them more visible or reduce their fonts. Django-crispy-forms provides us with the best tool to control rendering behaviour for our forms. It contains built in css framework like bootstrap, tailwind, bootsrap5 etc, to use any of these pacakages, a packed must be selected inside `settings.py` file. In addition it also saves us alot of time and effort that is if we opted for default django. This third party module uses tags on templates to render elegant features in a way similar to boostrap. In the virtual enviroment install `django-crispy-forms` then link the application to our website. We also need to install and update to boostrap-5 since our template is using a slightly older version.
+Our form needs an enhanced styling i.e color error notifications to make them more visible or reduce their fonts. Django-crispy-forms provides us with the best tool to control rendering behavior for our forms. It contains built in CSS framework like bootstrap, tailwind, bootsrap5 etc., to use any of these packages, a packed must be selected inside `settings.py` file. In addition it also saves us a lot of time and effort that is if we opted for default Django. This third party module uses tags on templates to render elegant features in a way similar to bootstrap. In the virtual environment install `django-crispy-forms` then link the application to our website. We also need to install and update to boostrap-5 since our template is using a slightly older version.
 
 ```shell
 (myenv) F:\Blog-App\myenv>pip install django-crispy-forms
@@ -523,11 +523,11 @@ New form appearance      |  Form errors appearance
 ### 6. User Authentication System.
 Django comes with built in authorization and authentication(‘permission’) forms from the Django contrib module. These features can be used to verify credentials buy defining logins and logouts. 
 
-Previously only a superuser admin could log in so as to enable other users to access the frontend, we need to build a login and logout pages. Authentication views are defined at project level url module. Each view must be differentiated by name using extensions. 
+Previously only a superuser admin could log in so as to enable other users to access the frontend, we need to build a login and logout pages. Authentication views are defined at project level URL module. Each view must be differentiated by name using extensions. 
 
 #### 6.1 Create a login template. 
-We will create these pages in users app template folder, then add their paths inside project level urls file then notify Django to lookup for them by passing it as an argument to `as_view()` function.
-Django already has installed auth application(check INSTALLED APP variable in settings file) to handle loggin, loggout, password change, password reset and many more. Its important to note it does not include a sign up view thats why we have to configure this by ourselves. To add this application we must unclude it in our project blogg_app url file.
+We will create these pages in users app template folder, then add their paths inside project level `urls` file then notify Django to lookup for them by passing it as an argument to `as_view()` function.
+Django already has installed auth application(check INSTALLED APP variable in settings file) to handle login, logout, password change, password reset and many more. Its important to note it does not include a sign up view that's why we have to configure this by ourselves. To add this application we must include it in our project blogg_app URL file.
 
 ```python
 from django.contrib import admin
@@ -615,12 +615,12 @@ Registration template
 ```
 
 #### 6.2 Test login page with different users. 
-Trying to acces a users account that had already been created  raises an error as seen below. This is because Django is trying to access a url that does not have a view(/accounts/profile/) attached to it. This is Django functionality, its set up such that after a user successfully login it redirects them to acounts profile page, we can modify this route so that after a successfull logging, a home page is opened. 
+Trying to access a users account that had already been created  raises an error as seen below. This is because Django is trying to access a URL that does not have a view(/accounts/profile/) attached to it. This is Django functionality, its set up such that after a user successfully login it redirects them to accounts profile page, we can modify this route so that after a successful logging, a home page is opened. 
 
 Form errors appearance
 ![Login error](./images/10.1Loginerror.png)
 
-This 'Page not found' error can be corrected by adding a route where Django will acces after users login succesfully. Open the settings file and setup a logging redirect path to the blogg's home page. This variable is given a value that represents a link, in our case the name give to home page link. 
+This 'Page not found' error can be corrected by adding a route where Django will access after users login successfully. Open the settings file and setup a logging redirect path to the blogg's home page. This variable is given a value that represents a link, in our case the name give to home page link. 
 
 ```python
 LOGIN_REDIRECT_URL = 'blog-home'
@@ -673,20 +673,20 @@ In our `web_app` url.py file, we will add a path to logout page from auth app by
     # New line 
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ```
-Default log out page for django :
+Default log out page for Django :
 ![Logout page](./images/14.DefaultLogoutPage.png)
 
-The page exposes unwarranted individual users to the admin section, this can be corrected by customising a html page and then passing this template as a variable to `as_view()` function. The file will be loaced in the same directory as the login template.
+The page exposes unwarranted individual users to the admin section, this can be corrected by customizing a html page and then passing this template as a variable to `as_view()` function. The file will be located in the same directory as the login template.
 ```python
     # New line 
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
 
 ```
-Customised log out page :
+Customized log out page :
 ![Login error](./images/14.2CustomLogout.png)
 
-#### 6.4 Naviagation Page.
-Currently our navigation panel does not update when a user is logged in or signed out, i.e if one is logged in, a logout link should appear and vice verser. A user can be authenticated in the base template by adding a control measure to check status. First attach a link to the logout and register buttons, i.e `href="{% url 'logout'%}"`. Django gives us acess to a User variable that has attributre `is_authenticated`, it checks log status. In the base html, We will create a python condition; if user is logged in then display logout button else display register button. 
+#### 6.4 Navigation Page.
+Currently our navigation panel does not update when a user is logged in or signed out, i.e if one is logged in, a logout link should appear and vice versa. A user can be authenticated in the base template by adding a control measure to check status. First attach a link to the logout and register buttons, i.e `href="{% url 'logout'%}"`. Django gives us access to a User variable that has attribute `is_authenticated`, it checks log status. In the base html, We will create a python condition; if user is logged in then display logout button else display register button. 
 
 ```html
     <!-- Items on the left -->
@@ -712,7 +712,7 @@ New Log Out Page  |  New Home Page Login feature
 ![Form](./images/14.3NewLogutPage.png) | ![Form error](./images/14.4NewLoginPage.png)
 
 #### 6.5 Create Profile Page.
-A profile page is neccesary to ensure that a user must sign up or log in so as to acess the application. This page displays user biodata i.e profile images. The bigger advantage is that is sets a restriction on certain routes i.e one must be signed and logged in to view the home page and other app features. 
+A profile page is necessary to ensure that a user must sign up or log in so as to access the application. This page displays user biodata i.e profile images. The bigger advantage is that is sets a restriction on certain routes i.e one must be signed and logged in to view the home page and other app features. 
 
 Create function, in the app view, that renders the page. 
 ```python
@@ -731,7 +731,7 @@ A template `profile.html` that simply shows user name is added to users template
     {% endblock content %}
 ```
 
-A route that utilizes this view is also needed, navigate to project's url file ;
+A route that utilizes this view is also needed, navigate to project's URL file ;
 
 ```python
 urlpatterns = [
@@ -742,7 +742,7 @@ urlpatterns = [
 ]
 ```
 
-Our application must have a link to the profile page for users to view their data, we can incoperate a link(to profile page) in the header section of base html only when they are logged in. 
+Our application must have a link to the profile page for users to view their data, we can incorporate a link(to profile page) in the header section of base html only when they are logged in. 
 ```html
         <!-- Items on the left -->
         <div>
@@ -764,7 +764,7 @@ Our application must have a link to the profile page for users to view their dat
         </div>
 ```
 
-Restrict the page to users who are logged in, this is achieved through a django decorator. Decorators are functions that change / enhance the behaviours of objects without altering their state, in our case, we need to enable `profile` view only if user is signed in. From Django's auth module import decorators into Users urls file ;
+Restrict the page to users who are logged in, this is achieved through a Django decorator. Decorators are functions that change / enhance the behaviors of objects without altering their state, in our case, we need to enable `profile` view only if user is signed in. From Django's auth module import decorators into Users `urls` file ;
 
 ```python
 
@@ -777,7 +777,7 @@ def profile(request):
 
 ```
 
-Django must be notified of a login route else it will search for the file in a default account/ route. This error is corrected by adding a login url variable in the settings file. This way, when users try searching a profile page, they are redirected to a login page. 
+Django must be notified of a login route else it will search for the file in a default account/ route. This error is corrected by adding a login `URL` variable in the settings file. This way, when users try searching a profile page, they are redirected to a login page. 
 
 ```python
 
@@ -786,11 +786,62 @@ LOGIN_REDIRECT_URL = 'blog-home'
 # New code 
 LOGOUT_URL = 'login'
 ```
+Run server and go to profile link - http://127.0.0.1:8000/profile 
+
+Note that if your are  not logged in, you are redirected to the sing in page then automatically to the profile page. This is a Django feature that enables easy navigation for users. 
 
 
+### 7. Enhance User Profile. 
+When users access their profile page they need to view their data information that includes an image uploaded by themselves. This adds more interactivity and intuitiveness to our page. First we need to install pillow library containing functions that process images in Django, then design a model that will hold the field containing image property, this model will have a one-to-one relationship with our User model. Next we have to configure a `MEDIA_ROOT` that will store all the images uploaded, it can also contain videos or audio files. 
 
+#### 7.1 Install Pillow Library.
+Always remember to activate the virtual environment whenever you restart application. Pillow supports many image formats such as `.jpeg` and `.png` ,without this library an error is raised. 
 
+Code for installing this library in the command line ;
 
+```shell
+pip install pillow 
+
+pip freeze 
+```
+
+#### 7.2 Add Image Model. 
+By extending the built-in `User` model to add an image field, Django will link the image uploaded to a specific user. This is define by the relationship declared, a user can only have one profile image and one image is associated to a single user. Head over to the Users application, in the models.py file, create model. 
+
+```python
+
+from django.contrib.auth.models import User    # new
+
+# Image model 
+class Profile(models.Model):
+    # Define relationship
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # parameters :Default image when a user doesn't have an image, folder to store images
+    image = models.ImageField(default='default.jpg', upload_to='images/')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+```
+Register the model to view it in the admin page.
+
+```python
+from .models import Profile  # new 
+
+admin.site.register(Profile)  # new 
+```
+
+#### 7.3 Add `MEDIA_ROOT` and `MEDIA_URL`
+The 'upload_to' parameter in image field tells Django where to find images that has been uploaded, it must be a child folder of Media root folder that store user uploaded images. In the settings file, add a media subfolder under the Root directory (`web_app`). For Django to locate any media file such i.e. an image, a URL path must be defined also within the settings.py file. Every item within this folder must start with the folder name then followed by file name. 
+
+```python
+MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
+```
+
+Apply and make migration to effect changes in the database then run server and log in as superuser so as to access admin page. Only the admin can add multiple images for each user. Then query the database from the shell to view location of images.  After adding images, at the root folder note media folder and image subfolder containing images have been added automatically. 
+
+Query database after stopping the server. 
+```
 
 
 
