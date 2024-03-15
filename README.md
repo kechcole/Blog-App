@@ -936,17 +936,53 @@ Image path in URL, right click image, open image in new tab.
 We can add a default image at the above URL path(web_app/media/default.jpg), for users who don't upload an image, we will have a this file used in their page. Ensure it has same name and file format. Reload page, 
 
 Default image added
-![Default Profile image added](./images/15.7DefaultImage.png)
+<div align="center">
+	<img width = "70%"  src="./images/15.7DefaultImage.png">
+</div>
 
 
-#### 7.5 Create Profile With Django Signal.
+#### 7.5 Create an Automated Profile With Django Signal.
+Currently we have been uploading user profile images from the admin page, this requires that a user processes admin level permissions a risk we would not take since this can pose a security threat to our app. Django signals are used to perform certain actions when modifications occur in a model. We want a signal that calls a function when there is an entry in User model, that is, a new user has been registered. As soon as a new instance of User class in created, a profile is automatically generated using post_save signal and a default profile picture assigned.   
+
+Create as new file, `signals.py` file and import the following :
+- a **`post_save` signal** that will be fired when a user instance object is created,  
+- **`User` model** is the sender that gets triggered when a user is created, 
+- the **receiver** then receives the signal and performs a task, here it creates a profile. 
+- **Profile model** onto which a receiver function will act on
+
+Two functions are needed ;
+ 1. ***create_profile*** function that will run each time an instance of a user is created, enabled by a receiver decorator that calls post_save signal on User class. 
+ 2. ***save_profile*** function that saves user profile. 
+
+`Signal.py` file ;
+```python
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from .models import Profile
 
 
+# receiver, 
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    # If model is successfully created create profile object
+    if created:
+        Profile.objects.create(user=instance)
+
+
+# 
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    # Save profile to User database
+    instance.profile.save()
+```
+
+ Signals only function after they have been connected to ready function belonging to User's `apps.py` by importing them. 
 
 
 
 #### 8.1 Upload Image From The Frontend.
-Currently we have been uploading user profile images from the admin page, this requires that a user processes admin level permissions a risk we would not take since this can pose a security threat to our app. To allow members to upload their images from their end(frontend), forms are required. Along with them, views and urls must be created.
+ To allow members to upload their images from their end(frontend), forms are required. Along with them, views and urls must be created.
 
 
 
