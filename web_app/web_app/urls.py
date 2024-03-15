@@ -19,6 +19,10 @@ from django.urls import path, include
 from users import views as users_views
 from django.contrib.auth import views as auth_views
 
+# User uploaded media files methods 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog_app.urls')),
@@ -31,3 +35,7 @@ urlpatterns = [
     # profile link 
     path('profile/', users_views.profile, name='profile'),
 ]
+
+# only on debbug mode
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

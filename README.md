@@ -884,5 +884,25 @@ Querying database after stopping the server. Get image associated to a user from
 Exit shell with `exit()` command. 
 
 
+#### 7.4 Update Profile Page.
+A user profile should display data such as : name, email and their image in this page. First add a URL pattern for media files in our project's `url.py` file. Serving user uploaded media files from `MEDIA_ROOT` during testing and development use Django's static server() view
+
+```python
+# ------>    new code 
+# User uploaded media files methods 
+from django.conf import settings
+from django.conf.urls.static import static
+
+# ---->      new code 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+Django template variable is used to access data from the database, render in html file, and style them using CSS features. 
+
+
+
+
+
 
 [//]: # (NEXT <> Part 8 , )
