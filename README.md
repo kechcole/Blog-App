@@ -802,6 +802,7 @@ Code for installing this library in the command line ;
 ```shell
 pip install pillow 
 
+# Check installed apps
 pip freeze 
 ```
 
