@@ -900,6 +900,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+<br><br>
 Django template variable is used to access data from the database, render in html file, and style them using CSS features. In the profile page we can access user information from the database and display in this html page. 
 
 ```html
@@ -922,23 +923,30 @@ Django template variable is used to access data from the database, render in htm
 
 {% endblock content %}
 ```
+<br><br>
 
 Run server, login and access user profile page.
 Profile sample. 
 ![Profilesample](./images/15.4Sample%20Profile.png)
+<br><br>
 
 Profile sample with default image. 
 ![Profilesample](./images/15.5SampleProfile2.png)
+<br><br>
+
 
 Image path in URL, right click image, open image in new tab. 
 ![Default Profile image path](./images/15.6DefaultImagePath.png)
+<br>
+<br>
 
 We can add a default image at the above URL path(web_app/media/default.jpg), for users who don't upload an image, we will have a this file used in their page. Ensure it has same name and file format. Reload page, 
 
 Default image added
 <div align="center">
-	<img width = "50%"  src="./images/15.7DefaultImage.png">
+	<img width = "80%"  src="./images/15.7DefaultImage.png">
 </div>
+<br><br>
 
 
 #### 7.5 Create an Automated Profile With Django Signal.
@@ -992,10 +1000,24 @@ class UsersConfig(AppConfig):
  ```
 Create a new user, log in and determine whether new user profile image has been created. 
 
-New user profile image has been updated automatically,
+New user profile image has been updated automatically in the web,
 <div align="center">
-	<img width = "50%"  src="./images/15.8NewUserProfile.png">
+	<img width = "80%"  src="./images/15.8NewUserProfile.png">
 </div>
+<br><br>
+
+New User model in database 
+<div align="center">
+	<img width = "80%"  src="./images/15.9NewUserModel.png">
+</div> 
+<br><br>
+
+<div align="center">
+	<img width = "80%"  src="./images/15.10New%20ProfileImage.png">
+</div> 
+<br><br>
+
+
 
 
 
@@ -1010,3 +1032,22 @@ New user profile image has been updated automatically,
 
 
 [//]: # (NEXT <> Part 8 , )
+
+<!--- 
+(1)  Add images side by side
+New Log Out Page  |  New Home Page Login feature 
+:----------------------:|:------------------:
+![Form](./images/14.3NewLogutPage.png) | ![Form error](./images/14.4NewLoginPage.png)
+
+
+(2)
+
+-->
+
+
+
+
+
+
+
+
