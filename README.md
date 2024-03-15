@@ -839,20 +839,21 @@ MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 ```
 
-Apply and make migration to effect changes in the database then run server and log in as superuser so as to access admin page where we will upload an image for each user from our local directory. Only the admin can add multiple images for each user. Then query the database from the shell to view location of images.  After adding images, at the root folder note media folder and image subfolder containing images have been added automatically. 
+#### 7.4 Upload Image in Backend Through Admin.
+Apply and make migration to effect changes in the database then run server and log in as superuser so as to access admin page where we will upload an image for each user from our local directory. Only the admin can add multiple images for each user. 
+
+Query the database from the shell to view location of images. After adding images, at the root folder note media folder and image subfolder containing images have been added automatically. 
 
 User1 Profile in admin page  |  User2 Profile in admin page
 :----------------------:|:------------------:
 ![User 1](./images/15.2%20User1%20Profile.png) | ![User 2](./images/15.3%20User2%20Profile.png)
 
 
-
-
 Profile model in the database.
 ![Form](./images/15.ProfileModelinDatabase.png)
 
 
-Querying database after stopping the server. Get image associated to a user from the profile model by stringing. 
+Querying database after stopping the server. Get image associated to a user from the profile model by stringing. Stop server, type **`py manage.py shell`** in shell window, 
 ```shell
 # User with default image 
 >>> user = User.objects.filter(username='collins').first()
@@ -885,7 +886,7 @@ Querying database after stopping the server. Get image associated to a user from
 Exit shell with `exit()` command. 
 
 
-#### 7.4 Update Profile Page.
+#### 7.5 Update Profile Page.
 A user profile should display data such as : name, email and their image in this page. First add a URL pattern for media files in our project's `url.py` file. Serving user uploaded media files from `MEDIA_ROOT` during testing and development use Django's static server() view
 
 ```python
@@ -899,7 +900,55 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
-Django template variable is used to access data from the database, render in html file, and style them using CSS features. 
+Django template variable is used to access data from the database, render in html file, and style them using CSS features. In the profile page we can access user information from the database and display in this html page. 
+
+```html
+{% block content %}
+
+    <h1>Profile.</h1>
+
+    <!-- New -->
+    <div class="content-section">
+        <div class="media">
+            <!-- Image link -->
+          <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+          <div class="media-body">
+            <!-- Template variables with user data -->
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+          </div>
+        </div>
+      </div> 
+
+{% endblock content %}
+```
+
+Run server, login and access user profile page.
+Profile sample. 
+![Profilesample](./images/15.4Sample%20Profile.png)
+
+Profile sample with default image. 
+![Profilesample](./images/15.5SampleProfile2.png)
+
+Image path in URL, right click image, open image in new tab. 
+![Default Profile image path](./images/15.6DefaultImagePath.png)
+
+We can add a default image at the above URL path(web_app/media/default.jpg), for users who don't upload an image, we will have a this file used in their page. Ensure it has same name and file format. Reload page, 
+
+Default image added
+![Default Profile image added](./images/15.7DefaultImage.png)
+
+
+#### 7.5 Create Profile With Django Signal.
+
+
+
+
+
+#### 8.1 Upload Image From The Frontend.
+Currently we have been uploading user profile images from the admin page, this requires that a user processes admin level permissions a risk we would not take since this can pose a security threat to our app. To allow members to upload their images from their end(frontend), forms are required. Along with them, views and urls must be created.
+
+
 
 
 
