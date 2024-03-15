@@ -937,7 +937,7 @@ We can add a default image at the above URL path(web_app/media/default.jpg), for
 
 Default image added
 <div align="center">
-	<img width = "70%"  src="./images/15.7DefaultImage.png">
+	<img width = "50%"  src="./images/15.7DefaultImage.png">
 </div>
 
 
@@ -954,7 +954,7 @@ Two functions are needed ;
  1. ***create_profile*** function that will run each time an instance of a user is created, enabled by a receiver decorator that calls post_save signal on User class. 
  2. ***save_profile*** function that saves user profile. 
 
-`Signal.py` file ;
+`signal.py` file ;
 ```python
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
@@ -970,19 +970,37 @@ def create_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 
-# 
+# save user profile infor
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     # Save profile to User database
     instance.profile.save()
 ```
 
- Signals only function after they have been connected to ready function belonging to User's `apps.py` by importing them. 
+ Signals only function after they have been connected to ready function belonging to User's app `apps.py` by importing them. 
+
+ ```python
+
+class UsersConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'users'
+
+# ------>   New code 
+    def ready(self):
+        import users.signals
+
+ ```
+Create a new user, log in and determine whether new user profile image has been created. 
+
+New user profile image has been updated automatically,
+<div align="center">
+	<img width = "50%"  src="./images/15.8NewUserProfile.png">
+</div>
 
 
 
 #### 8.1 Upload Image From The Frontend.
- To allow members to upload their images from their end(frontend), forms are required. Along with them, views and urls must be created.
+ To allow members to upload their images from their end(frontend), forms are required. Along with them, views and URLs must be created.
 
 
 
