@@ -11,5 +11,20 @@
             <p class="text-secondary">{{ user.email }}</p>
           </div>
         </div>
+
+        <!-- Add forms -->
+        <!-- In the opening type add attribute for image format -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Your Profile Info</legend>    
+                {{ u_form|crispy }}  <!-- User form -->              
+                {{ p_form|crispy }}   <!-- Profile form -->
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+          </form>
+
       </div> 
 {% endblock content %}

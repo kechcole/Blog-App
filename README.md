@@ -1054,7 +1054,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 ##### **Convert Profile Model** 
-Since our `UserUpdateForm` doesn't contain a field to store user profile image, we will need to map the `Profile model` and create a form to get this attribute. In the same file location as above, import `Profile` and define an image form ;
+Since our `UserUpdateForm` doesn't contain a field to store user profile image, we will need to map the `Profile model` and create a form to get this attribute. In the same file location as above, import `Profile` model and define an image form ;
 
 ```python
 # -----> New Code 
@@ -1069,11 +1069,62 @@ class ProfileUpdateForm(forms.ModelForm):
 ```
  
 
+##### **Create View.**
+Finally, to complete our MVT structure, create a view that would render the forms and directly save it to the database. Effect these in the `User` app `views.py` file by importing above forms and create instances of the forms in profile template. Use context to access the forms with keys as variables used to access these items in the html file ;
+
+```python
+# Import the two forms 
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
 
+# Render a profile template
+@login_required
+def profile(request):
 
 
+# ----- New code 
+    # Create an instance of empty forms 
+    u_form = UserUpdateForm()
+    p_form = ProfileUpdateForm()
+
+    # Pass forms to the template using a context
+    context = {
+        'u_form':u_form,
+        'p_form': p_form
+    }
+
+    # Pass context to the html template
+    return render(request, 'users/profile.html', context)
+
+```
+
+The forms can be accessed in `profile.html` by printing them inside form tags. Just a like any other Django form, it must be indented and contain a security feature. Two forms each with its own field must be placed inside this html form so that users can access them as a single unit. An encoding type must be passed to ensure image uploaded by users are passed in the correct media format, at the top in the opening form tag. Add below to profile template 
+
+```html
+<!-- ----------New code -->
+
+        <!-- Add forms -->
+        <!-- In the opening type add attribute for image format -->
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Your Profile Info</legend>    
+                {{ u_form|crispy }}  <!-- User form -->              
+                {{ p_form|crispy }}   <!-- Profile form -->
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+          </form>
+```
+Run server, login and open profile page ,
+
+<div align="center">
+	<img width = "80%"  src="./images/15.11ProfileImageForms.png">
+</div>
+
+Compare with profile image in section 7.5. 
 
 
 

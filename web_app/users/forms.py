@@ -7,6 +7,7 @@ from .models import Profile
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
+    # Specify model to use
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
@@ -17,7 +18,7 @@ class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
 
 
-    # Fields in the form 
+    # Fields in the model that should be used. 
     class Meta:
         model = User
         fields = ['username', 'email']
