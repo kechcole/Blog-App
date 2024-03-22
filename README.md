@@ -1188,6 +1188,11 @@ Profile Changed Image
 	<img width = "80%"  src="./images/16.1ProfileChange.png">
 </div>
 
+User property changes in the database.
+<div align="center">
+	<img width = "80%"  src="./images/16.2DatabaseChanges.png">
+</div>
+
 
 
 
