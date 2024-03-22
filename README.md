@@ -1037,7 +1037,33 @@ Standardizing the image size uploaded is key to utilizing resources, we will des
 
 ##### **Convert User Model to a Form**
 We are building a data drive application that needs a model that maps closely to our Django `User model`, it must have the same quality and quantity of model fields. Super Django can save a ton of time by by doing the heavy lifting for us, instead of writing a bunch of redundant code that defines a model and its relationship to the parent, we simply inherit from the `ModelForm class` that takes parent table as parameter and converts it to a Django Form.  
-In our User app, add the following class ; Userupdateclass
+Open User app in the `form.py`, create a form that has user name and email fields; 
+
+```python
+
+# -----> New Code 
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+```
+
+
+##### **Convert Profile Model** 
+Since our `UserUpdateForm` doesn't contain a field to store user profile image, we will need to map the `Profile model` and create a form to get this attribute. In the same file location as above add ;
+
+```python
+# -----> New Code 
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
+```
  
 
 
