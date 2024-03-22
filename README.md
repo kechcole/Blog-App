@@ -1183,17 +1183,17 @@ def profile(request):
 
 Run server and try changing your user name and profile image:
 
-Profile Changed Image
+Profile Changed Image in the backend.
 <div align="center">
 	<img width = "80%"  src="./images/16.1ProfileChange.png">
 </div>
 
-User property changes in the database.
-<div align="center">
-	<img width = "80%"  src="./images/16.2DatabaseChanges.png">
-</div>
+<br><br>
 
-
+Changes in the database
+User Model Change  |  User Profile change 
+:----------------------:|:------------------:
+![Form](./images/16.2DatabaseChanges.png) | ![Form error](./images/16.3ImageChanged.png)
 
 
 [//]: # (NEXT <> Part 9 , )
