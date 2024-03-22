@@ -1029,8 +1029,12 @@ New User model in database
 
 
 
-### **8. Upload Image From The Frontend.**
-Currently we have been uploading user profile images from the admin page, this requires that a user processes admin level permissions a risk we would not take since this can pose a security threat to our app.To allow members to upload their images from their end(frontend), forms are required. Along with them, views and URLs must be created.
+### **8. Upload Changes in Profile Page.**
+
+<!-- 
+Currently we have been uploading user profile images from the admin page, this requires that a user processes admin level permissions a risk we would not take since this can pose a security threat to our app.
+ -->
+To allow members to change their metadata i.e upload new profile images or use new names, forms are required along with, views and URLs.
 Standardizing the image size uploaded is key to utilizing resources, we will design a function that reduces the pixel size for profile images. 
 
 #### **8.1 Create Forms.** 
@@ -1125,6 +1129,65 @@ Run server, login and open profile page ,
 </div>
 
 Compare with profile image in section 7.5. 
+
+
+
+##### **Fill Form Field With User Data.**
+From the image above, the user is logged in but our form cannot display the name, instead the field is empty and requires them to fill. We can correct this by filling in the form with data captured when signing in by passing in as parameter the instance of the object it references i.e for `UserUpdateForm` the `User model` will be instantiated buy a user. Details of a specific user can be accessed using ***request.user*** method while respective image uses ***request.user.profile***.   
+
+Secondly, we need to code the our user application `profile` function in `views.py` so that it can return a webpage containing validated form data when a `POST` request is made, then store this information in the database.  
+
+```python 
+# Render a profile template
+@login_required
+def profile(request):
+
+
+# ------------New Code 
+    # If this is a POST request
+    if request.method == 'POST':
+        # Create form 
+        u_form = UserUpdateForm(request.POST,  
+                                instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,  
+                                   instance=request.user.profile)
+    
+        # Validate data 
+        if u_form.is_valid() and p_form.is_valid():
+            # If valid, save data to database 
+            u_form.save()
+            p_form.save()
+
+            # Notify user of success data capture 
+            messages.success(request, f'Thanks {request.user.username} Your account is upto date!')
+            # Send get request to reload profile page 
+            return redirect('profile')
+            
+    
+    # Not a POST request
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        
+    # Pass forms to the template using a context
+    context = {
+        'u_form':u_form,
+        'p_form': p_form
+    }
+
+
+    # Pass context to the html template
+    return render(request, 'users/profile.html', context)
+```
+
+Run server and try changing your user name and profile image:
+
+Profile Changed Image
+<div align="center">
+	<img width = "80%"  src="./images/16.1ProfileChange.png">
+</div>
+
 
 
 

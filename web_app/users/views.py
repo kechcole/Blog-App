@@ -30,10 +30,32 @@ def register(request):
 @login_required
 def profile(request):
 
-    # Create an empty instance of forms 
-    u_form = UserUpdateForm()
-    p_form = ProfileUpdateForm()
+    # If this is a POST request
+    if request.method == 'POST':
+        # Create form 
+        u_form = UserUpdateForm(request.POST,           # Get post data 
+                                instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,       # Get file data, here is the image
+                                   instance=request.user.profile)
+    
+        # Validate data 
+        if u_form.is_valid() and p_form.is_valid():
+            # If valid save data 
+            u_form.save()
+            p_form.save()
 
+            # Notify user of success data capture 
+            messages.success(request, f'Thanks {request.user.username} Your account is upto date!')
+            # Send get request to reload profile page 
+            return redirect('profile')
+            
+    
+    # Not a POST request
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+        
     # Pass forms to the template using a context
     context = {
         'u_form':u_form,
