@@ -1054,10 +1054,13 @@ class UserUpdateForm(forms.ModelForm):
 
 
 ##### **Convert Profile Model** 
-Since our `UserUpdateForm` doesn't contain a field to store user profile image, we will need to map the `Profile model` and create a form to get this attribute. In the same file location as above add ;
+Since our `UserUpdateForm` doesn't contain a field to store user profile image, we will need to map the `Profile model` and create a form to get this attribute. In the same file location as above, import `Profile` and define an image form ;
 
 ```python
 # -----> New Code 
+
+from .models import Profile
+
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
