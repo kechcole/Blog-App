@@ -75,7 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'web_app.wsgi.application'
 
 
-# Database
+# Database , used postgres database 
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
