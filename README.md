@@ -1196,6 +1196,52 @@ User Model Change  |  User Profile change
 ![Form](./images/16.2DatabaseChanges.png) | ![Form error](./images/16.3ImageChanged.png)
 
 
+
+##### **Resize Profile Image.**
+Rescaling image the reduces latency when the image is being read from the server. By simply overriding the save() method in `Profile` model and perform modifications in a class method.
+
+```python 
+# -----> New code 
+from PIL import Image
+
+
+# Image model 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='images/')
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+    
+
+# ----------> New code.
+#   Overide save method belonging to parent
+    def save(self):
+        super().save()   # save image
+
+        # Resize it
+        img = Image.open(self.image.path)
+
+        # Specify size
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+```
+
+##### **Add Profile Image to Posts.**
+Adding a profile image to the chats enhances the application. In the `home.html` just below the article tag add ;
+
+```html
+    <article class="media content-section">
+
+    <!-- ----- New code -->
+      <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+
+```
+
+
+
 [//]: # (NEXT <> Part 9 , )
 
 <!--- 
