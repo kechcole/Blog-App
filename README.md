@@ -1240,6 +1240,78 @@ Adding a profile image to the chats enhances the application. In the `home.html`
 ```
 
 
+## 9. Design User Post.
+We will need to enable users write, read and delete posts using class based views to display,update and delete new post. Django is commonly known as `Batteries included`
+ framework because i9t contains built in features that enable fast web development that are easy to work with. A good example are class based view, these are built in views that enable developers to implement CRUD operations. Just like function based views, class based handle requests(i.e. GET, POST, PUT, etc.) but provided additional functionalities. The later are used to supplement shortfalls that come about in the later(function based) such as code redundancy and inability to extend.
+
+ In class based view, operations are handled through objects rather than functions making CRUD operations easy to implement but can have a steep learning curve. They also implement an implicit code flow where some tools are activated without knowledge of the developer. 
+
+ ### 9.1 Advantages of Class Based Views(CBVs). 
+ - Uses **Don't Repeat Yourself(DRY)** design principle - It emphasizes on code reusability where modularity is enhanced thus repetition and errors are greatly reduced and maintenance is easy. 
+ - Code Expendability - Code can be extended to include more functionalities. A user can inherit from another class and be modified for other 
+ - Class based view provide an Object Oriented way of structuring code - Mixins (small reusable classes) facilitate flexibility by encapsulating common  functionalities among multiple view without the need for inheritance making code cleaner code structures.  
+
+ ### 9.2 Implement CBV in Blog App.
+ Remember, basic functionality of a view, a URL pattern is directed to a function(view) which handles code logic and finally displays a html template. A class based view is also a function because when we add `as_view()` class method to them, they return a function. In order to implement a, different types of views will be used i.e. list views, create views, editing views, detail views, delete views and many more all under the umbrella of generic views. Generic views were designed to address common app development issues thus speeding up development process.  
+
+ In `blog_app's view.py` file, home view grabs all the the posts by users and renders them in the home page. Lets create a list based class view for the same functionality. 
+
+ ```python
+from django.shortcuts import render
+➊from django.views.generic import ListView
+from .models import Post
+
+def home(request):
+    # grab data into a dictionary
+    context = {
+        'posts':Post.objects.all()
+    }
+    return render(request, 'blog_app/home.html', context)
+
+# List view to query Post model
+➋class PostListView(ListView):
+    model = Post
+
+ ```
+
+ To use the above list view, a URL must be defined in `blog_app's url.py` file, ➋replace home view with one created above. First convert the class view to an actual view using as_view method. 
+
+ ```python
+from django.urls import path
+➊from .views import PostListView
+from . import views
+
+
+urlpatterns = [
+    ➋path('', PostListView.as_view(), name='blog-home'),
+    path('about/', views.about, name='blog-about'),
+]
+ ``` 
+Run server and click home button. An error `TemplateDoesNotExist at/` props up because the view cannot find a specific template with the naming convention : `blog_app/post_list.html` , `<app>/<model>_<viewtype>.html` . We can easily solve this by creating a template that is in tandem with that naming convention but we already have a template, so it will be easier if we make the view display a template we already have, the ➊home page html file, from within the `view.py` python file. Also set the ➋variable containing objects to be looped over. 
+
+```python
+
+# List view to query Post model
+class PostListView(ListView):
+    model = Post
+
+    ➊template_name = 'blog_app/home.html' 
+    ➋context_object_name = 'posts'
+```
+Reload home page again, a similar page as one displayed by function based view appears. 
+
+Home page with class view
+<div align="center">
+	<img width = "80%"  src="./images/17.2AllPosts.png">
+</div>
+
+
+
+
+
+
+
+
 
 
 
