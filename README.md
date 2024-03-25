@@ -1302,7 +1302,7 @@ Reload home page again, a similar page as one displayed by function based view a
 
 Home page with class view
 <div align="center">
-	<img width = "80%"  src="./images/17.2AllPosts.png">
+	<img width = "80%"  src="./images/17.1Posts.png">
 </div>
 
 
