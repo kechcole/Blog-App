@@ -1235,10 +1235,11 @@ Adding a profile image to the chats enhances the application. In the `home.html`
 ```html
     <article class="media content-section">
 
-    <!-- ----- New code -->
+    ➊ <!-- ----- New code -->
       <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-
 ```
+
+
 
 
 
@@ -1251,7 +1252,8 @@ New Log Out Page  |  New Home Page Login feature
 ![Form](./images/14.3NewLogutPage.png) | ![Form error](./images/14.4NewLoginPage.png)
 
 
-(2)
+(2) UTF Symbols - https://gist.github.com/xto3na/be59699271121180e079
+➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓   ⓫
 
 -->
 
