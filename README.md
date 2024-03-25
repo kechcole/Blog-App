@@ -1283,7 +1283,7 @@ from . import views
 
 
 urlpatterns = [
-    ➋path('', PostListView.as_view(), name='blog-home'),
+    ➋path('', PostListView.as_view(), name='post-create'),
     path('about/', views.about, name='blog-about'),
 ]
  ``` 
@@ -1306,16 +1306,83 @@ Home page with class view
 </div>
 
 
+### 9.3 Reorder Posts.
+As seen on image above, posts are arranged from the earliest at the top to our latest sitting at the bottom. To reverse this, simply change the query in ListView inside views.py by adding an ordering attribute in our case the `date_posted` field. By default post are ordered from oldest to newest, reversed by adding a negative symbol in field name.  
+
+```python
+
+# List view to query Post model
+class PostListView(ListView):
+    model = Post
+    template_name = 'blog_app/home.html'
+    context_object_name = 'posts'
+
+    # Order date field from newest to oldest
+    ➊ordering = ['-date_posted']
+```
+
+### 9.4 Detailed Views.
+A detailed view displays an instance of a table from the database with all the necessary details. As compared to `ListView`, `Detail View` have less code but one has to follow conventions of using generic view defaults i.e templates and variable containing names as stated by Django.  
+
+When looking at individual posts, this is a detailed view. For each post we are going to create a view. 
+
+```python
+# Import detail view
+from django.views.generic import ListView, ➊DetailView
+
+# Detail view to query specific post 
+➋class PostDetailView(DetailView):
+    model = Post
+```
+
+Django provides us with the ability to add variables in its routes, we can harness this and create a path that contains the id of a post where users can view a specific post. Add these lines of code in blog_app's url python file add ;
+
+```python
+from .views import PostListView, ➊PostDetailView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='blog-home'),
+    path('about/', views.about, name='blog-about'),
+    ➋path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+]
+```
+
+Using this : `<app>/<model>_<viewtype>.html` the view will be looking for , `blog_app/post_detail.html`. Create a html file within template's blog_app subdirectory with the name post_detail. Detail view expects the context to called object thus variable names in the html must be changed i.e. from `post.author` to `object.author`. The attribute in the class can be changed but lets stick to conventions. 
+
+```html
+{% extends 'blog_app/base.html' %}
+{% block content %}
+    <h1>Blog App Detail Page</h1>
+    <h2>Display Post {{object.id}} Data</h2>
+
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2 class="article-title">{{ object.title }}</h2>
+            <p class="article-content">{{ object.content }}</p>
+        </div>
+  </article>
+  
+{% endblock content %}
+
+```
+Run server and type : http://127.0.0.1:8000/post/2/ to access the second post through a URL. Try other posts as well. 
+
+Second Post Data
+<div align="center">
+	<img width = "80%"  src="./images/17.2PostData.png">
+</div>
 
 
 
 
 
 
-
-
-
-[//]: # (NEXT <> Part 9 , )
+[//]: # (NEXT <> Part 10 -> 17.00, )
 
 <!--- 
 (1)  Add images side by side
@@ -1326,6 +1393,13 @@ New Log Out Page  |  New Home Page Login feature
 
 (2) UTF Symbols - https://gist.github.com/xto3na/be59699271121180e079
 ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓   ⓫
+
+
+
+
+REFERENCES 
+
+1. Class based views - https://www.javatpoint.com/django-class-based-generic-views
 
 -->
 
