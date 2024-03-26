@@ -1,7 +1,15 @@
 # Blog-App
-A blog application created using Django.
-Users with different level of authorizations can log in, write posts, update profile information and many  more features.
+A social network created using Django framework, the application follows the model-view-controller (MVC) architectural pattern, emphasizing the reusability and pluggability of components i.e class views. 
 
+## Key Features.
+- Object-Relational Mapping (ORM)
+- Admin Interface Development
+- URL routing
+- Form Handling
+- Authentication and Authorization
+- Security using Cross Site Request Fogery
+- Templates Design
+- 
 
 ## **Table of Contents**
 
