@@ -1349,6 +1349,7 @@ urlpatterns = [
 
 Using this : `<app>/<model>_<viewtype>.html` the view will be looking for , `blog_app/post_detail.html`. Create a html file within template's blog_app subdirectory with the name post_detail. Detail view expects the context to called object thus variable names in the html must be changed i.e. from `post.author` to `object.author`. The attribute in the class can be changed but lets stick to conventions. 
 
+Post_detail.html file
 ```html
 {% extends 'blog_app/base.html' %}
 {% block content %}
