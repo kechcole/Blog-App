@@ -1426,8 +1426,60 @@ Runserver, go to home page and click a specific post.
 
 
 ### 9.5 Create Views.
+A create view logic creates an instance of a table by taking input from a user and then stores in the database. Class views are just amazing, most operations are automated. In create view, we only specify the model and the fields a user will need to fill, the date is automatically updated. 
+
+In project app `views.py` file import and create this view 
+
+```python
+# import view
+from django.views.generic import ListView, DetailView, ➊CreateView
 
 
+# Create view to create a user post 
+➋class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content']
+
+```
+
+Now create a URL path to the view in `urls.py` file 
+
+```python
+# import create view
+from .views import PostListView, PostDetailView, ➊PostCreateView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='blog-home'),
+    path('about/', views.about, name='blog-about'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    ➋path('post/new/', PostCreateView.as_view(), name='post-create'),
+]
+```
+Finally we need to design a form that will users will fill their contents. The form is almost similar to the one in `regiser.html` but with slight modifications. Create a html file in blog_app's template directory, it will host the form. 
+
+New `post_form.html` file.
+```html
+{% extends 'blog_app/base.html' %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+    <h1>New Blog Post.</h1>
+    <br>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %} 
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Your Post.</legend>
+                <!-- Render form with bootstrap -->
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Post</button>
+            </div>
+        </form>
+    </div> 
+{% endblock content %}
+```
 
 
 [//]: # (NEXT <> Part 10 -> 17.00, )
