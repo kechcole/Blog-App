@@ -3,7 +3,7 @@
     <h1>Blog App Detail Page</h1>
     <h2>Display Post {{object.id}} Data</h2>
 
-      <article class="media content-section">
+    <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
         <div class="media-body">
             <div class="article-metadata">
@@ -13,6 +13,6 @@
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-content">{{ object.content }}</p>
         </div>
-  </article>
+    </article>
   
 {% endblock content %}
