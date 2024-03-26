@@ -7,11 +7,13 @@ A social network created using Django framework, the application follows the mod
 - URL routing
 - Form Handling
 - Authentication and Authorization
-- Security using Cross Site Request Fogery
+- Security using Cross Site Request Forgery
 - Templates Design
-- 
+
 
 ## **Table of Contents**
+1.
+2.
 
 ## 1. Setup
     - Setup virtual environment named myenv and activate
