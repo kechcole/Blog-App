@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -18,3 +19,9 @@ class Post(models.Model):
     # Plural naming 
     class Meta:
         verbose_name_plural = "Post"
+
+    # Location to specific post 
+    def get_absolute_url(self):
+        
+        # Return path to the instance of a specific post, each has a primary key 
+        return reverse('post-detail', kwargs={'pk': self.pk})

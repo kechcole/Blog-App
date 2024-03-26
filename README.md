@@ -1511,12 +1511,81 @@ Improperly Configured error
 	<img width = "80%" src="./images/17.4RedirectError.png">
 </div>
 
-Lets set a redirect-to page after a post has been created for the form. 
+Lets set a redirect-to page after a post has been created for the form. We can redirect the browser to the detail page of the post created by creating a `git_absolute_URL` method in our model that returns a path to a specific instance. A reverse function is preferred over redirect because it returns a full URL path as a string Open blog_app `model.py` file 
+
+```python
+➊from django.urls import reverse
 
 
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date_posted = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name_plural = "Post"
+
+    # URL to specific post 
+    ➋def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.pk})
+```
+Create another post again. No errors, user redirected to the post made. 
+
+### 9.5.1 Restrict Post only to Authenticated Users.
+Our app needs to ensure users creating posts are registered, otherwise they must sign in. In function views, decorators perform this role but for class views, `login mixins` are used. These are small reusable classes with specific methods located in Django's auth mixins module.. These powerful tools allow code modularity, reusability and flexibility when building class views. They allow sharable functionalities across views without the need for inheritance making code easily maintainable. Add a log in mixin to `PostCreateView()` class view ;
+
+```python
+➊from django.contrib.auth.mixins import LoginRequiredMixin
+
+# Create view to create a user post 
+class PostCreateView(➋LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content']
+
+```
+Log out a user and try accessing new post page, we are are redirected to a login page(http://127.0.0.1:8000/login/), this is the type of functionality we needed from the mixin. 
 
 
-[//]: # (NEXT <> Part 10 -> 24.00, )
+## 9.6 Update View. 
+An update view is a logic that updates an instance of a class by adding extra details to a table in database i.e. a user can update a post. Lets create this view in blog_app `views.py` , logis is similar to previous class views;
+
+```python
+from django.views.generic import ListView, DetailView, CreateView, ➊UpdateView
+
+
+# Create view to update a user post 
+➋class PostUpdateView(LoginRequiredMixin, ➌UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    # Validate form 
+    def form_valid(self, form):
+        # Set form author 
+        form.instance.author = self.request.user
+
+        # Validate form by running current method on parent class 
+        return super().form_valid(form)
+```
+
+Now create a URL path to map the view in blog_app/urls.py,
+
+```python
+from .views import PostListView, PostDetailView, PostCreateView, ➊PostUpdateView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='blog-home'),
+    path('about/', views.about, name='blog-about'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    ➋path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+]
+```
+Login as a user, Home page, click on post to be updated, add /update/ to path and click enter. A form filed with current post data appears, make necessary changes and submit.  
+
+[//]: # (NEXT <> Part 10 -> 34.00, )
 
 <!--- 
 (1)  Add images side by side

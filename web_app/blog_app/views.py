@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post
 
 def home(request):
@@ -30,7 +31,7 @@ class PostDetailView(DetailView):
 
 
 # Create view to create a user post 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
 
@@ -43,6 +44,18 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
+# Create view to update a user post 
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    # Validate form 
+    def form_valid(self, form):
+        # Set form author 
+        form.instance.author = self.request.user
+
+        # Validate form by running current method on parent class 
+        return super().form_valid(form)
 
 def about(request):
     return render(request, 'blog_app/about.html', {'title':'About Page'})
