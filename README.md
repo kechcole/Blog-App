@@ -1480,7 +1480,12 @@ New `post_form.html` file.
     </div> 
 {% endblock content %}
 ```
+Run server and type URL : http://127.0.0.1:8000/post/new/
 
+Create view form
+<div align="center">
+	<img width = "80%"  src="./images/17.3CreateViewForm.png">
+</div>
 
 [//]: # (NEXT <> Part 10 -> 17.00, )
 
