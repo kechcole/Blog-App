@@ -12,8 +12,13 @@ A social network created using Django framework, the application follows the mod
 
 
 ## **Table of Contents**
-1.
-2.
+1. [Setup.](#1-setup)
+2. [Routing Application.](#2-routing-applications)
+3. [Templates.](#3-templates)
+4. [Database Management.](#4-database-management)
+5. [User Registration.](#5-user-registration)
+6. [User Authentication.](#6-user-authentication-system)
+
 
 ## 1. Setup
     - Setup virtual environment named myenv and activate
@@ -97,7 +102,7 @@ Bootstrap is a powerful, feature rich toolkit used to build responsive websites 
 
 
 ## 4. Database Management. 
-Django works with relational databases such as SSQLite(in-built) or Postgres. All database systems supported by Django use the language SQL to create, read, update and delete data in a relational database. SQL is also used to create, change, and delete the database tables themselves. An admin site is used to manage models in the database.  
+Django works with relational databases such as SQLite(in-built) or Postgres. All database systems supported by Django use the language SQL to create, read, update and delete data in a relational database. SQL is also used to create, change, and delete the database tables themselves. An admin site is used to manage models in the database.  
 
 ### **4.1 Admin Page.**
 Admin application is used to manage data through CRUD operations and view registered models in the backend making production efficient. Admin page configurations are automatically created when a user creates a project, all we need now is creating a super user and pass credentials at the command line. User information will be stored in auth_user table stored in the database after applying migrations. 
