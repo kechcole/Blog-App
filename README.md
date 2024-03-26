@@ -1397,7 +1397,35 @@ Second Post Data
 	<img width = "80%"  src="./images/17.2PostData.png">
 </div>
 
+From the home page, we need to link a post such that when users click a specific post, they are redirected to the the post_detail page. In the post title tag, add a href attribute as a URL link to the name of post detail path in urls file. The parameter which had post id must also be specified. 
 
+```html
+{% extends 'blog_app/base.html' %}
+{% block content %}
+    <h1>Blog app Home Page</h1>
+    <h2>Display data.</h2>
+    {% for post in posts %}
+    <article class="media content-section">
+      <!-- Add profile image  -->
+      <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ post.author }}</a>
+          <small class="text-muted">{{ post.date_posted | date:"M d, Y" }}</small>
+        </div>
+
+        <!-- Link to specific post in post detail page -->
+          ➊<h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+    </article>
+    {% endfor %}
+{% endblock content %}
+```
+Runserver, go to home page and click a specific post. 
+
+
+### 9.5 Create Views.
 
 
 
