@@ -34,6 +34,14 @@ class PostCreateView(CreateView):
     model = Post
     fields = ['title', 'content']
 
+    # Validate form 
+    def form_valid(self, form):
+        # Set form author 
+        form.instance.author = self.request.user
+
+        # Validate form by running current method on parent class 
+        return super().form_valid(form)
+
 
 
 def about(request):

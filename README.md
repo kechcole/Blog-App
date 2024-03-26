@@ -1426,7 +1426,9 @@ Runserver, go to home page and click a specific post.
 
 
 ### 9.5 Create Views.
-A create view logic creates an instance of a table by taking input from a user and then stores in the database. Class views are just amazing, most operations are automated. In create view, we only specify the model and the fields a user will need to fill, the date is automatically updated. 
+A create view logic creates an instance of a table by taking input from a user and then stores in the database. Class views are just amazing, most operations are automated. In create view, we only specify the model and the fields a user will need to fill, the date is automatically updated.
+
+This view allows users to submit their post from the front end side of our application, all along only the superuser did the job using shell commands. 
 
 In project app `views.py` file import and create this view 
 
@@ -1487,7 +1489,34 @@ Create view form
 	<img width = "80%"  src="./images/17.3CreateViewForm.png">
 </div>
 
-[//]: # (NEXT <> Part 10 -> 17.00, )
+
+We cannot submit a post now, raises integrity error, because Django doesn't know the owner yet although we are logged in. By overriding the form valid method in the create view class, the form will submit data belonging to user currently logged in. Set the author of the form as current user and then validate the form again by passing the form as argument. 
+
+```python
+
+# Create view to create a user post 
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content']
+
+    # Overide form validator after setting author
+    ➊def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+```
+When a user tries to post some information, we get another error that there is no URL to redirect to after successfully creating a post. 
+
+Improperly Configured error
+<div align="center">
+	<img width = "80%" src="./images/17.4RedirectError.png">
+</div>
+
+Lets set a redirect-to page after a post has been created for the form. 
+
+
+
+
+[//]: # (NEXT <> Part 10 -> 24.00, )
 
 <!--- 
 (1)  Add images side by side
