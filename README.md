@@ -18,6 +18,10 @@ A social network created using Django framework, the application follows the mod
 4. [Database Management.](#4-database-management)
 5. [User Registration.](#5-user-registration)
 6. [User Authentication.](#6-user-authentication-system)
+7. [User Profile](#7-enhance-user-profile)
+8. [Forms](#8-upload-changes-in-profile-page)
+9. [User Post](#9-design-user-post)
+8. [](#)
 
 
 ## 1. Setup
