@@ -254,7 +254,7 @@ Create a post directly using set, then query post table.
 Note that we did not specify the author of the post nor save the post like previously done. 
 
 ### **4.5 Add queried data to views.**
-We can now access queried information from the database and display this information in our views. Import the Post class from the same directory file model.py and grab data into a dictionary. 
+We can now access queried information from the database and display in our views. Import the Post class from the same directory file model.py and grab data into a dictionary. 
 
 ```python
 from django.shortcuts import render
@@ -276,7 +276,7 @@ We are going to create an application that allows users to login from the front 
 
 A logically separate application needs to be created to manage users. This user application will have its own form, routes and other features that are independent. Since users cannot use the admin page to sign in, we need to design a registration page that contains a form as the first step. A form is used to pass in information from front end to backend python. It will verify user details such matching password, email validation, field validation, and rendering error messages as well as old values. 
 
-Django does much of the heavy lifting i.e validation by simply automating tasks using pre built forms. Depending on user needs, this framework is extremely flexible as programmers can customize these forms when they need to scale up.
+Django does much of the heavy lifting i.e validation by simply automating tasks using pre-built forms. Depending on user needs, this framework is extremely flexible as programmers can customize these forms when they need to scale up.
 
 ### **5.1 Create User Application.** 
 In the project directory, we will create a new class to model user application. This app will handle all the functionalities related to users sign up.
@@ -303,7 +303,7 @@ INSTALLED_APPS = [
 ```
 
 ### **5.2 Design form.**
-Django comes with pre-built user authentication systems. User logins can be enabled by importing authentication systems. User objects form the building blocks of an authentication system. Developers create new users by using a build-in module,`UserCreationForm`, it contains three basic attributes, **username**, **password1** and **password2**, they are minimum requirements needed to have an authentication system. 
+Django comes with pre-built user authentication systems. User logins can be enabled by importing authentication modules. User objects form the building blocks as developers create new users by using a built-in module,`UserCreationForm`, it contains three basic attributes, **username**, **password1** and **password2**, these are the minimum requirements for setting up an authentication system. 
 A registration form has to be rendered by a function, in this case, **registration**, defined in `views.py` file in users application. A new user is created by creating an instance of a built in user form. To access the form from the html file, we need to pass in as context in a dictionary.  
 
 ```python
