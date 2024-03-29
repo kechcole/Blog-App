@@ -45,7 +45,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 
 # Create view to update a user post 
-class PostUpdateView(LoginRequiredMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
 

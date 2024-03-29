@@ -1598,7 +1598,35 @@ Post 3 Updated
 
 Multiple users deleting posts even those that ain't theirs causes a data integrity risk to the database. We need to ensure that they can only change their own by placing a check. `UserPassesTestMixin` is a CBV mixin that allows developers to add test on user activities. It contains methods that return true values when a user passes some test, only then they can access an update view. Access update view and add the mixin ;
 
+```python
+# import mixin
+from django.contrib.auth.mixins import LoginRequiredMixin , ➊UserPassesTestMixin
 
+
+# Create view to update a user post 
+class PostUpdateView(LoginRequiredMixin, ➋UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+
+    # Validate form 
+    def form_valid(self, form):
+        # Set form author 
+        form.instance.author = self.request.user
+
+        # Validate form by running current method on parent class 
+        return super().form_valid(form)
+    
+    # Test if user is the author of post
+    ➌def test_func(self):
+        # Grab the post
+        post = self.get_object()
+
+        # Compare post attribute(author) and one making request(logged in user)
+        if self.request.user == post.author:
+            return True
+        return False
+```
+Try update a post as different user. 
 
 
 [//]: # (NEXT <> Part 10 -> 34.00, )
