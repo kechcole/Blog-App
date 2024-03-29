@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from .models import Post
 
 def home(request):
@@ -56,6 +56,16 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 
         # Validate form by running current method on parent class 
         return super().form_valid(form)
+    
+    # Test if user is the author of post
+    def test_func(self):
+        # Grab the post
+        post = self.get_object()
+
+        # Compare post attribute(author) and one making request(logged in user)
+        if self.request.user == post.author:
+            return True
+        return False
 
 def about(request):
     return render(request, 'blog_app/about.html', {'title':'About Page'})
