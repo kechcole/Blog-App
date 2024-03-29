@@ -1662,7 +1662,7 @@ urlpatterns = [
 ]
 ```
 
-Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. 
+Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data all security features normally included in forms are not included. 
 
 
 
@@ -1670,7 +1670,7 @@ Create a `confirm_post_delete.html` document within our blog_app template folder
 
 
 
-[//]: # (NEXT <> Part 10 -> 34.00, )
+[//]: # (NEXT <> Part 10 -> 44.00, )
 
 <!--- 
 (1)  Add images side by side
