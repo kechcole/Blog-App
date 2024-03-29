@@ -1550,7 +1550,7 @@ Log out a user and try accessing new post page, we are are redirected to a login
 
 
 ## 9.6 Update View. 
-An update view is a logic that updates an instance of a class by adding extra details to a table in database i.e. a user can update a post. Lets create this view in blog_app `views.py` , logis is similar to previous class views;
+An update view is a logic that updates an instance of a class by adding extra details to a table in database i.e. a user can update a post. Lets create this view in blog_app `views.py` , logic is similar to previous class views;
 
 ```python
 from django.views.generic import ListView, DetailView, CreateView, ➊UpdateView
@@ -1583,7 +1583,19 @@ urlpatterns = [
     ➋path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
 ]
 ```
-Login as a user, Home page, click on post to be updated, add /update/ to path and click enter. A form filed with current post data appears, make necessary changes and submit.  
+Login as a user, Home page, click on post to be updated, add /update/ to path and click enter. A form filed with current post data appears, make necessary changes and submit.
+Change the 3rd post http://127.0.0.1:8000/post/3/update/
+
+Update Post 3
+<div align="center">
+	<img width = "80%" src="./images/17.5UpdatePost3.png">
+</div>
+
+Post 3 Updated
+<div align="center">
+	<img width = "80%" src="./images/17.6Post3Updated.png">
+</div>
+
 
 [//]: # (NEXT <> Part 10 -> 34.00, )
 
