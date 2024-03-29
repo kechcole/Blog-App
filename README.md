@@ -1632,6 +1632,41 @@ Try update a post as different user, 403 forbidden error response displayed.
 ## 9.7 Delete View.
 Delete view deletes an instance of a table by removing entries in the database. This view will use mixins used in previous CBV's such as `LoginRequiredMixin` and `UserPassesTestMixin` to ensure one must be authenticated and verified before removing a post. Create a delete view in blog_app/views.py ;
 
+```python
+# Impoer delete view
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, ➊DeleteView
+
+# Delete view
+➋class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+
+    # Test user 
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+```
+Add URL path to delete post in urls.py file ; 
+
+```python
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, ➊PostDeleteView
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='blog-home'),
+    path('about/', views.about, name='blog-about'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    ➋path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+]
+```
+
+Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. 
+
+
+
+
 
 
 
