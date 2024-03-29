@@ -1596,6 +1596,10 @@ Post 3 Updated
 	<img width = "80%" src="./images/17.6Post3Updated.png">
 </div>
 
+Multiple users deleting posts even those that ain't theirs causes a data integrity risk to the database. We need to ensure that they can only change their own by placing a check. `UserPassesTestMixin` is a CBV mixin that allows developers to add test on user activities. It contains methods that return true values when a user passes some test, only then they can access an update view. Access update view and add the mixin ;
+
+
+
 
 [//]: # (NEXT <> Part 10 -> 34.00, )
 
