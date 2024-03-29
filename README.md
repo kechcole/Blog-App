@@ -1626,7 +1626,13 @@ class PostUpdateView(LoginRequiredMixin, ➋UserPassesTestMixin, UpdateView):
             return True
         return False
 ```
-Try update a post as different user. 
+Try update a post as different user, 403 forbidden error response displayed.  
+
+
+## 9.7 Delete View.
+Delete view deletes an instance of a table by removing entries in the database. This view will use mixins used in previous CBV's such as `LoginRequiredMixin` and `UserPassesTestMixin` to ensure one must be authenticated and verified before removing a post. Create a delete view in blog_app/views.py ;
+
+
 
 
 [//]: # (NEXT <> Part 10 -> 34.00, )
