@@ -1690,9 +1690,21 @@ Delete Post Page
 	<img width = "80%" src="./images/17.7DeletePostpage.png">
 </div>
 
-Cancel delete button works appropriately buy yes delete raises an error stating that there is no path to be redirected after this operation. Lets add a success URL in delete CBV by simply adding a success url attribute with its value being a home page path. 
+Cancel delete button works appropriately buy yes delete raises an error stating that there is no path to be redirected after this operation. Lets add a success URL in post delete CBV by simply adding a success url attribute with its value being a home page path. Note the post was not deleted after an unsuccessful delete request.  
 
+```python
+# Add a success url
+# Delete view
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
 
+    # Home page url after post is deleted successfully
+    ➊success_url = '/'
+```
+With above changes a post can now be removed from the blog application. 
+
+## 9.8 Enhance Features.
+I think we can agree that our app users would not be comfortable typing a URL path for creating, deleting or updating a post, it would be friendlier for them to use links in the navigation bar for any type of activity the need. Lets add these links to the right side of the navigation bar in home template. 
 
 
 
