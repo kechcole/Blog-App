@@ -1683,8 +1683,12 @@ Create a `post_confirm_delete.html` document within our blog_app template folder
     </div>
 {% endblock content %}
 ```
+Run server - http://127.0.0.1:8000/post/8/delete/
 
-
+Delete Post Page
+<div align="center">
+	<img width = "80%" src="./images/17.7DeletePostpage.png">
+</div>
 
 
 
