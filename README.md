@@ -1354,7 +1354,7 @@ from django.views.generic import ListView, ➊DetailView
     model = Post
 ```
 
-Django provides us with the ability to add variables in its routes, we can harness this and create a path that contains the id of a post where users can view a specific post. Add these lines of code in blog_app's url python file add ;
+Django provides us with the ability to add variables in its routes, we can harness this and create a path that contains the id of a post where users can view a specific post. Add these lines of code in blog_app's URL python file add ;
 
 ```python
 from .views import PostListView, ➊PostDetailView
@@ -1662,7 +1662,7 @@ urlpatterns = [
 ]
 ```
 
-Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data all security features normally included in forms are not included. 
+Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data, all security features normally included in forms are not included. A user may want to reverse their action, to enable this we will all an anchor tag containing a link to the detail page of the post. When clicked, they are redirected to the post in question.  
 
 
 
