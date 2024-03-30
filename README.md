@@ -1662,7 +1662,7 @@ urlpatterns = [
 ]
 ```
 
-Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data, all security features normally included in forms are not included. A user may want to reverse their action, to enable this we will all an anchor tag containing a link to the detail page of the post. When clicked, they are redirected to the post in question. 
+Create a `post_confirm_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data, all security features normally included in forms are not included. A user may want to reverse their action, to enable this we will all an anchor tag containing a link to the detail page of the post. When clicked, they are redirected to the post in question. 
 
 ```html
 {% extends "blog/base.html" %}
