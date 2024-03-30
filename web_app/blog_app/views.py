@@ -72,6 +72,9 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
 
+    # Home page url after post is deleted successfully
+    success_url = '/'
+
     # Test user 
     def test_func(self):
         post = self.get_object()

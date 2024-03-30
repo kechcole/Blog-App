@@ -1690,6 +1690,8 @@ Delete Post Page
 	<img width = "80%" src="./images/17.7DeletePostpage.png">
 </div>
 
+Cancel delete button works appropriately buy yes delete raises an error stating that there is no path to be redirected after this operation. Lets add a success URL in delete CBV by simply adding a success url attribute with its value being a home page path. 
+
 
 
 
