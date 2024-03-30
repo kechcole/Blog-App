@@ -1662,7 +1662,27 @@ urlpatterns = [
 ]
 ```
 
-Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data, all security features normally included in forms are not included. A user may want to reverse their action, to enable this we will all an anchor tag containing a link to the detail page of the post. When clicked, they are redirected to the post in question.  
+Create a `confirm_post_delete.html` document within our blog_app template folder that confirms whether we need to delete a post, upon submission Django deletes the post. Because we are not submitting any data, all security features normally included in forms are not included. A user may want to reverse their action, to enable this we will all an anchor tag containing a link to the detail page of the post. When clicked, they are redirected to the post in question. 
+
+```html
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Post</legend>
+                <h2>Are you sure you want to delete the post : "{{ object.title }}"</h2>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <!-- Link redirects users to the detail view of the post to be deleted -->
+                <a class="btn btn-outline-secondary" href="{% url 'post-detail' object.id %}">Cancel Delete</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+```
 
 
 
