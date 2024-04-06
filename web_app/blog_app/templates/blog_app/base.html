@@ -42,22 +42,27 @@
           </ul>
         </div>
 
-        <!-- Items on the left -->
+        <!-- Items on the left, navigation bar-->
         <div>
           <ul class="navbar-nav">
             {% if user.is_authenticated %} 
-              <!-- Link to profile  -->
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-              </li>
+            <!-- Link to create a post -->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'post-create' %}">Create a new post.</a>
+            </li>
 
-              <!-- Display user name -->
-              <span class="navbar-text">Logged in as {{user.username}} | </span>
-              
-              <!-- login link -->
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
+            <!-- Link to profile  -->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+            </li>
+
+            <!-- Display user name -->
+            <span class="navbar-text">Logged in as {{user.username}} | </span>
+            
+            <!-- login link -->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
             {% else %}
               <!-- Link for login -->
               <li class="nav-item">
