@@ -1704,7 +1704,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 With above changes a post can now be removed from the blog application. 
 
 ## 9.8 Enhance Features.
-I think we can agree that our app users would not be comfortable typing a URL path for creating, deleting or updating a post, it would be friendlier for them to use links in the navigation bar for any type of activity they need. Lets add these links to the right side of the navigation bar in home template. 
+I think we can agree that our app users would not be comfortable typing a URL path for creating, deleting or updating a post, it would be friendlier for them to use links in the navigation bar for any type of activity needed. Lets add these links to the right side of the navigation bar in home template. 
 
 ### 9.8.1 Link to create a post. 
 Add a link to create a new post in the navigation bar within the base template. Add an anchor tag with a href containing a link to the `postcreate` view. 
