@@ -1762,6 +1762,11 @@ Run server, log in to your user account
 	<img width = "80%" src="./images/18.2LinkToUpdateDeleteButtons.png">
 </div>
 
+## 10. Pagination. 
+
+## 11. Reset Password. 
+Changing password is a critical part of a web page, we have to enable this feature for our application. Django follows a *batteries included* philosophy where it contains a multitude of built in features including password security.    
+
 
 
 [//]: # (NEXT <> Part 11 -> 00.00, )
@@ -1776,6 +1781,8 @@ New Log Out Page  |  New Home Page Login feature
 (2) UTF Symbols - https://gist.github.com/xto3na/be59699271121180e079
 ➊ ➋ ➌ ➍ ➎ ➏ ➐ ➑ ➒ ➓   ⓫
 
+collins - cole2024
+cole - 123456cole
 
 
 
