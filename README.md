@@ -1733,8 +1733,30 @@ Add Post link on home page
 </div>
 
 
-### 9.8.2 Link to update and delete a post. 
-A user can only access an instance of post model from the detail page. Here individual post can edited thus it will be appropriate to place a these links in this template. Add a condition that verifies the current user is the author of the post then display delete and update button. 
+### 9.8.2 Link to post update and delete buttons. 
+A user can only access an instance of post model from the detail page. We need to add a functionality where users(who is authenticated) can update and delete their posts through buttons. Add a condition that verifies the current user is the author of the post then display delete and update button.These items should be placed in our navigation bar in the base template of our app and are only visible to a user who is loggedin. 
+
+post_detail.html
+```html
+
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.author }}</a>
+            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2 class="article-title">{{ object.title }}</h2>
+        <p class="article-content">{{ object.content }}</p>
+
+            <!-- Update and delete buttons  -->
+          ➊<div>
+            {% if object.author == user %}
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+            {% endif %}
+            </div>
+    </div>
+  
+```
 
 
 
