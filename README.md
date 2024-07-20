@@ -1734,7 +1734,7 @@ Add Post link on home page
 
 
 ### 9.8.2 Link to update and delete a post. 
-A user can only access an instance of post model from the detail page. Here individual post can edited thus it will be appropriate to place a these links in this template. Add a condition that verifies the current user is the authour of the post then display delete and update button. 
+A user can only access an instance of post model from the detail page. Here individual post can edited thus it will be appropriate to place a these links in this template. Add a condition that verifies the current user is the author of the post then display delete and update button. 
 
 
 
