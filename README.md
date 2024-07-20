@@ -1757,7 +1757,10 @@ post_detail.html
     </div>
   
 ```
-
+Runserver, log in to your user account 
+<div align="center">
+	<img width = "80%" src="./images/18.2LinkToUpdateDeleteButtons.png">
+</div>
 
 
 
